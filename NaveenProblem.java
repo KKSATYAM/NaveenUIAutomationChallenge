@@ -1,7 +1,6 @@
 package com.java.test;
 
 import static org.assertj.core.api.Assertions.*;
-
 import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
