@@ -1,4 +1,4 @@
-# Node.js--> H1 Font heading
+# Node.js--> H1 heading
 
 [open governance model](./GOVERNANCE.md)---> hyperlink for .md file located in the current directory
 
