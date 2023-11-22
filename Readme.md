@@ -23,3 +23,7 @@ ________________________________________________________________________________
 - What are differences between function, modules and packages ?
 - How to import a package ?
 - What are Python workspaces ?
+
+## Day 5: Regex and MultiThreading Concepts
+- see the [Node.js website][]
+
