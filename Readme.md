@@ -1,65 +1,32 @@
-# Python Zero to Hero for DevOps Engineers
+# Node.js--> H1 Font heading
 
+[open governance model](./GOVERNANCE.md)---> hyperlink for .md file located in the current directory
 
-## Day 1: Introduction to Python, Installation, and Configuration
-- Introduction to Python and its role in DevOps.
-- Installing Python and setting up a development environment.
-- Writing your first Python program.
+**This project has a [Code of Conduct][].**----> to bold out the content
 
-## Day 2: Intro to Datatypes, Working with Strings and Numbers
-- String data type in Python.
-- String manipulation and formatting.
-- Regular expressions for text processing.
-- Numeric data types in Python (int, float).
- 
-## Day 3: Keywords and Variables
-- Understanding variables in Python.
-- Variable scope and lifetime.
-- Variable naming conventions and best practices.
-- Practice exercises and examples:
-  - Example: Using variables to store and manipulate configuration data in a DevOps context.
+## Table of contents---> H2 heading
 
-## Day 4: Functions, Modules and Packages
-- What are differences between function, modules and packages ?
-- How to import a package ?
-- What are Python workspaces ?
-- For information on using Node.js, see the [Node.js website](https://github.com/nodejs).
+* [Support](#support) -----> table index with #support tagges
 
-## Table of contents
+[semantic versioning](https://semver.org).---> hyperlink for particular https link with text as semantic versioning
 
-* [Support](#support)
+### Download------> H3 heading
 
-  ## Day 2: Intro to Datatypes, Working with Strings and Numbers
-- String data type in Python.
-- String manipulation and formatting.
-- Regular expressions for text processing.
-- Numeric data types in Python (int, float).
- 
-## Day 3: Keywords and Variables
-- Understanding variables in Python.
-- Variable scope and lifetime.
-- Variable naming conventions and best practices.
-- Practice exercises and examples:
-  - Example: Using variables to store and manipulate configuration data in a DevOps context.
+#### Current and LTS releases------> H4 heading
 
-## Day 4: Functions, Modules and Packages
-- What are differences between function, modules and packages ?
-- How to import a package ?
-- What are Python workspaces ?
-- For information on using Node.js, see the [Node.js website](https://github.com/nodejs).
+<https://nodejs.org/download/release/>---> way to add hyperlink with same text
 
-  
-**Looking for help? Check out the [instructions for getting support](.github/SUPPORT.md).**
+`SHASUMS256.txt` ---> way to highlight the text
 
+```bash
+curl -O https://nodejs.org/dist/vx.y.z/SHASUMS256.txt----> way to add the bash command
+```
 
+<details>
 
+<summary>Emeriti</summary>
 
+* [yosuke-furukawa](https://github.com/yosuke-furukawa) -
+  **Yosuke Furukawa** <<yosuke.furukawa@gmail.com>>
 
-
-
-
-
-  ## Support
-
-
-
+</details>
