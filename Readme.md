@@ -69,3 +69,11 @@ Looking for help? Check out the
 ```py
 print("hello world");
 ```
+
+```js
+print("hello world");
+```
+
+```bash
+print("hello world");
+```
