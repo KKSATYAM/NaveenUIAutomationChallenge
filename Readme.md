@@ -27,6 +27,6 @@ curl -O https://nodejs.org/dist/vx.y.z/SHASUMS256.txt----> way to add the bash c
 <summary>Emeriti</summary>
 
 * [yosuke-furukawa](https://github.com/yosuke-furukawa) -
-  **Yosuke Furukawa** <<yosuke.furukawa@gmail.com>>
+  **Yosuke Furukawa** <`<yosuke.furukawa@gmail.com>`>
 
 </details>
