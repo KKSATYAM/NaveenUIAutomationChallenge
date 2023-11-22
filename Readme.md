@@ -49,9 +49,21 @@ curl -O https://nodejs.org/dist/vx.y.z/SHASUMS256.txt----> way to add the bash c
 * **Nightly**: Code from the Current branch built every 24-hours when there are
   changes. Use with caution.
 
+
+
+
+  
+
 Current and LTS releases follow [semantic versioning](https://semver.org). A
 member of the Release Team [signs](#release-keys) each Current and LTS release.
 For more information, see the
+
+
+
+</a>
+  <a title="Localised" href="https://crowdin.com/project/nodejs-web">
+    <img src="https://badges.crowdin.net/nodejs-web/localized.svg" />
+ </a>
 [Release README](https://github.com/nodejs/Release#readme).
 
 ## Support
