@@ -64,7 +64,6 @@ For more information, see the
   <a title="Localised" href="https://crowdin.com/project/nodejs-web">
     <img src="https://badges.crowdin.net/nodejs-web/localized.svg" />
  </a>
-[Release README](https://github.com/nodejs/Release#readme).
 
 ## Support
 
