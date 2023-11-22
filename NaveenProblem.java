@@ -36,12 +36,12 @@ public class NaveenProblem {
 		driver.findElements(By.cssSelector("g.region g.rpath path")).stream()
 											.filter(ele -> ele.getAttribute("name").equals(US_States))
 											.forEach(ele -> {
-																ele.click();
-																assertThat(driver.findElement(By.xpath("//ul[@class='breadcrumb']/li/span")).getText().toUpperCase())
-																.isNotNull()
-																.startsWith(String.valueOf(US_States.charAt(0)))
-																.isEqualTo(US_States.toUpperCase());
-															});
+													ele.click();
+													assertThat(driver.findElement(By.xpath("//ul[@class='breadcrumb']/li/span")).getText().toUpperCase())
+													.isNotNull()
+													.startsWith(String.valueOf(US_States.charAt(0)))
+													.isEqualTo(US_States.toUpperCase());
+													});
 		driver.quit();
 
 	}
