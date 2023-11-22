@@ -29,12 +29,7 @@
 
 * [Support](#support)
 
-  
-**Looking for help? Check out the [instructions for getting support](.github/SUPPORT.md).**
-
-
-
-## Day 2: Intro to Datatypes, Working with Strings and Numbers
+  ## Day 2: Intro to Datatypes, Working with Strings and Numbers
 - String data type in Python.
 - String manipulation and formatting.
 - Regular expressions for text processing.
@@ -52,6 +47,13 @@
 - How to import a package ?
 - What are Python workspaces ?
 - For information on using Node.js, see the [Node.js website](https://github.com/nodejs).
+
+  
+**Looking for help? Check out the [instructions for getting support](.github/SUPPORT.md).**
+
+
+
+
 
 
 
