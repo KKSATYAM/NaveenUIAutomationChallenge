@@ -61,8 +61,7 @@ curl -O https://nodejs.org/dist/vx.y.z/SHASUMS256.txt----> way to add the bash c
 
 ## Support
 
-Looking for help? Check out the [instructions for getting support][]
-
+Looking for help? Check out the [instructions for getting support](./instructions for getting support.md)
 
 
 ```py
