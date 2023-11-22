@@ -55,8 +55,9 @@ curl -O https://nodejs.org/dist/vx.y.z/SHASUMS256.txt----> way to add the bash c
 > \[!NOTE]\
 > We recommend a read of all Relevant Links below before doing code changes; Including Dependency changes, Content changes, and Code changes.
 
- > \[!NOTICE]\
+> \[!NOTICE]\
 > Please note to use the these sequence of commands to pull the code from git.
+
 
 ## Support
 
