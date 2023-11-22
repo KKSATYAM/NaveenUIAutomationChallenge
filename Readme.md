@@ -29,8 +29,18 @@
 
 * [Support](#support)
 
+  
+** Looking for help? Check out the [instructions for getting support](.github/SUPPORT.md).**
+
+
+
+
+
+
+
+
+
   ## Support
 
-Looking for help? Check out the
-[instructions for getting support](.github/SUPPORT.md).
+
 
