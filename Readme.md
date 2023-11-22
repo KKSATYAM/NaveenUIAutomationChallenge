@@ -1,5 +1,5 @@
 # Python Zero to Hero for DevOps Engineers
-___________________________________________________________________________________
+
 
 ## Day 1: Introduction to Python, Installation, and Configuration
 - Introduction to Python and its role in DevOps.
