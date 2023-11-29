@@ -1,0 +1,18 @@
+name: Workflow Dispatch
+on:
+ - pull_request
+ - push
+ - issues
+
+jobs:
+  first-job:
+  runs-on: ubuntu-latest
+  # parallel: true
+  steps:
+    step 1: run linux command
+    name: fetch ec2 instance id from docker container
+    run: |
+     - echo "pwd"
+    #  - echo docker ps| awk -F " " {print $1}
+    #  - docker rm -f docker ps | awk -F " " {print $1}
+     
