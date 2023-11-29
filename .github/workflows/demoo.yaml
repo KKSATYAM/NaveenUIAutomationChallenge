@@ -1,0 +1,15 @@
+name: Workflow Dispatch
+on:
+ - pull_request
+ - push
+ - issues
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    # parallel: true
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    - run: echo "Hello"
+    
+   
