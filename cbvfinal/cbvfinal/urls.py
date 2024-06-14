@@ -26,6 +26,7 @@ urlpatterns = [
     path("detail/<int:pk>",views.BearDetailView.as_view(),name='detail'),
     path("insert/",views.BearCreateView.as_view()),
     path("update/<int:pk>",views.BearUpdateView.as_view()),
-    path("delete/<int:pk>",views.BearDeleteView.as_view())
+    path("delete/<int:pk>",views.BearDeleteView.as_view()),
+    path("hello/",views.route_through_middleware)
 
 ]

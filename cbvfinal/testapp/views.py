@@ -1,5 +1,11 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from testapp.models import Bear
+from django.http import HttpResponse
+
+
+def route_through_middleware(request):
+    # print(a/b)
+    return HttpResponse("<h1>This response is from view function/business logic")
 
 # Create your views here.
 class BearListView(ListView):
