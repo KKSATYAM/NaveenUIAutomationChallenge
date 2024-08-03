@@ -1,0 +1,2065 @@
+sql
+**********
+complete table info.
+
+sp_help tablename
+
+ITP02B002C04A094
+
+ITP01C006A04A157
+
+>>Relational Databases::oracle(owned by oracle, gived good integration libraries for java enterprize applications), sql server(microsoft, gives good support with C#.net appliaction), mysql(open source, using mysql workbence as client we can connect to mysql), db2(owned by ibm), sybase(owned by SAP, widely used in Enterprize Resourse panning(ERP)), sqllite(used by devlopers for in memory in mobile app development), postgre
+
+Usage:
+
+vastly used in ETL(tool used: informatica, talend), Business Reporting(Power BI, tabluea) etc.
+
+In database data usually stored as a collection of object like service, stored procedure etc.
+
+All the sql's language and syntax and functions varies from database to database, but concepts remains same like way the OOPS concept will be same irrescpective of any programming language.
+
+Couldn't connect direclty to database we need a CLI/GUI client to interact with oracle sql db.
+
+>>client(avaliable as GUI for oracle sql)
+
+    sql developer
+    sql navigator
+    Toad 
+
+All three fall under GUI, only sqlplus is CLI based.
+
+Oracle 19C comes by default with client server packaged tool, so we don't need to install any tool explictly. 
+
+Path: Start> OracleDBAHome> sqlplus
+
+But, for Oracle 11g,12C etc. version we have navigate inside appliaction develpment folder to access the sql client/ sqlplus tool to connect with oracle server
+
+Path: Start> OracleDBAHome> Appliaction Development> sqlplus
+
+Oracle 19C mostly used edition are Express and Enterprize(contain lot of feauters like recycle bin, pre defined tables)
+
+Enterprize with scott user and tiger as password contain pre defined table like EMP, DEPT, SALGRADE, BONUS
+
+To check user we have use >> show user;
+
+To clear screen >> cl scr;
+
+To view all table of particular user >> select * from TAB;
+
+To view all pre defined sqltool variable >> show all;
+
+set linesize 100; or else we can use set linesize window; in case of 19C oracle version
+
+set pagesize 20;
+
+
+>> Installation
+
+Oracle Installation>> Go to oracle software download >> Database>> Enterprize edition>> Extract>> go inside folder>> execute setup.exe >> select single instance >> desktop only>> select windows built-in account>> make sure it is enterprize edition check in dropdown then check orcl as default global database with some password and don't select any continer db>> continue? yes>> finish>> installation will take 30 mins be pateince
+
+default user name: system with password setup during installation like tiger
+
+sys: super user | login as sys as sysadm with password as sys
+
+To change user idendity like password etc. for any user we have to use >> alter user username identified by password;
+
+To create a explict user we have to use >> login as sys >> create user scott identifed by xyz(give password here) >> grant dba to scott >> connect as scott user with connection string like conn scott/password
+
+we can coonect as sys user using this command>> conn sys as sysdba>> password as sys
+
+By default scott user doesn't contain any table like EMP,DEPT,SALGRADE,BONUS to make these table avaliable we have to copy query from demobld.sql file copy from select till commit and paste it in cmd to get those command executed after this table will be avaliable
+
+To connect to oracle db we have to use connection string >> conn username/password
+
+To view all the user in database we have to use >> desc show dba_user , it contains the table scehma
+
+session 8>>
+
+from 1970 onwards we are following relational data model concept given by SD at IBM named E.F CONN that we can represnt data in matrix ie. row and column
+
+Mainly relational data models consists of three components>> set of operator, integrity rules and collection of database objects(tables, views, procedure etc.)
+
+Master Child concept is mainly primary forein key concept main point here is the table containing primary key is master table and forein key table we can refer as child table
+
+session 9>>
+
+Team System/R devloped inital DSL/alpha(Relational model of data for large shared bank) later named as SQUARE by IBM and in 1986 ANSI had made it standidize with SQL so any orgination developing relationl databases can use this defined standards and in 1987 ISO has also done the same
+
+SQL has its own sub query language
+
+>> Data Defination Language(DDL)
+
+   Create
+   Alter
+   drop
+   truncate
+   rename(specific to oracle 9i onwards)
+
+>> Data Manupilation Language(DML)
+
+   Insert
+   Update
+   Delete
+   Merge(specific to oracle 9i onwards)
+
+>> Data Retrival/Query Language(DQL/DRL)
+   
+   Select
+
+>> Transaction Control Language(TCL)
+
+   commit(SAVE)
+   savepoint
+   rollback
+
+>> Data Control Language(DCL)
+
+   grant
+   revoke
+ 
+session 10>>
+
+we mainly divided all different operation because of few restriction like a programmer can only use DML and TCL commands in his program but he can't use DCL and based on this ASNI divided operation into different sets.
+
+we don't have to use commit explicity incase of DDL command
+
+>> Datatypes
+
+   char: can contain max upto 2000 bytes with each character considered as 1 byte, it is fixed length data type and blank padded space is not removed during storing the                data due to which the remaning memory will not be deallocated and reserved as blank space in database
+   
+   varchar: can contain max upto 4000 bytes with dynamic memory deallocation ie. blank padded space is removed by default to save memory
+
+
+
+>> session 12
+
+varchar and varchar2 internally pointing to same datatype ie. varchar2 in oracle, varchar is ANSI standard datatype whereas varchar2 is in oracle from 7.0 onwards. varchar is having 2000 bytes only but varchar2 has upto 4000 bytes. 
+
+long datatype is used to store upto 2gb of data, long datatype can't be primary key and also we can have only 1 column with long datatype in datatype.
+
+>> session 13
+
+data datatype format is by default DD-MON-YY
+
+>> session 14
+
+Number(p,s) p>> precision and s is no. of digits after decimal, more than p-s we can't store before left of decimal point
+
+>> session 15
+
+DDL
+
+create table object we have to use>> create table first(sno number(10), name varchar2(10))
+
+TO view structure of table>> desc tablename
+
+Alter>> used to change the structure of data we can modify/add/drop structure of table column>> add is used to add column into existing table>> alter table tablename add(col1 datatype(size))
+
+using alter command we can't insert the column in between column by default it will be added at last in oracle but in mysql only we have option like after given column we can add the needed column
+
+>> session 16
+
+alter table tablename add col1 datatype(size)
+
+atler with modify is used to change column datatype or datatype(size) and this we can only do in empty table
+
+alter table tablename modify col1 datatype(size)
+
+alter with drop used to remove column from exiting table
+
+alter table tablename drop column columnname orr alter table tablename drop(col1, col2...)
+
+drop>> is used to drop database objects, note we can only drop one database object at a time we have to use>> drop object objectname ie. drop table tablename
+
+session 17>>
+
+To get table back from recycle bin use>> flashback table tablename to before drop
+
+To delete table permanently use>> drop table tablename purge
+
+Oracle 10g introduced recyclebib which is used to store dropped table to view recycle bin then use>> show recyclebin
+
+To delete single table from recycle bin use>> purge table tablename
+
+To clear whole recycle bin use >> purge recyclebin
+
+Truncate used to delete all rows permanenlty from table>> truncate table tablename
+
+session 18>>
+
+Rename>> used to renaming a table>> rename oldtablename to newtablename
+
+Rename column>> alter table tablename rename column olddcolumnname to newcolumnname ie. alter table emp rename column empno to sno
+
+All DDL command are automatically commited ie. we dobn't have to use commit(save) explicitly
+
+
+DML>>
+
+insert, update, delete, merge
+
+insert>> used to insert data into tables>> insert into tablename values()
+
+using(&) we can add cell values
+
+session 19>>
+
+insert into values(&col1, '&col2',...)
+
+/ used to run previous used command
+
+skipping column>> insert into tablename(col1,col2) values(col1,col2) >> used to insert only required values into particualr column in table
+
+alter table first add address varchar2(20)
+
+update tablename set colnmae=newvalue where colname=oldvalue
+
+update first set name='india' where name='murali'
+
+update first set='mumbai' where name='sachin' >> make sure that all queries are case sensitive
+
+>> session 20
+
+delete from tablename where name='sachin'
+
+differnece between truncate and delete is>>
+
+Mainly when we use sqlclient such as toad, sql developer etc. to connect to oracle database then we are baiscally connected to ram memory but not the actual database object so if we are using delete command then the changes got saved in ram memory and not still not commited yet to hard disk or we can say that the old colun data is avaliable in buffer area that we can easily rollback using 'rollback command' , but if we are using truncate command the changes were automatically saved to hark disk so there is no point of undoing/rollback the truncated data as DML command bydefault saved/commit the changes into main database object.
+
+select * from tablename
+
+select col1,col2 
+from tablename
+where condition
+group by col
+having condition
+order by [asc/desc]
+
+session 21>>
+
+select all col, all rows==> all col represent * and all row represnt where condtion which is by default true if we won't mentioned anything
+
+select * from tablename where rownumber<=5
+
+here we are selecting all row with top 5 row, so in this way we can select column using * and row using where condtion
+
+Operator in select statement
+
+Arthemetic, Releational/Comparision, Special, logical
+
+Execpt arthemetic operator all operator is used in where condition and sometime arthemetic operator also we used in where clause
+
+>> Relation operator
+
+select * 
+from emp 
+where job!='CLERK'
+
+	OR
+
+select * 
+from emp 
+where job<>'CLERK'
+
+select * from emp
+where sal>2000
+
+session 22>>
+
+select * from emp
+where deptno=10
+
+>> copy table with data from existing table
+
+create table tablename
+	as
+select * from existingtablename
+
+note : table constraint never copied to new table like PK, FK etc.
+
+>> copy table without data from existing table
+
+create table tablename
+	as
+select * from tablename 
+where 1>2(| 1=2; we only have to use false condition in case of column mapping to new table without data)
+
+session 23>>
+
+select ename, sal, sal*12 as annsal from emp;
+
+select * from (select ename,sal,sal*12 annsal from emp) where annsal>30000
+
+				OR
+
+select ename, sal, sal*12 as annsal from emp where sal*12>30000;
+
+generally we are not allowed to use column alias name in where clause
+
+
+session 26>>
+
+update emp set comm=nvl2(comm,comm+500,500) where 2>1;
+
+session 28>>
+
+select * from emp where comm is null;
+
+SQL> select * from emp where comm is not null;
+
+syntax:
+
+select colname from tablename where colname like 'regular expression';
+
+select * from emp where ename like 'M%';
+
+select * from emp where ename like '%M%';
+
+session 29>>
+
+select * from emp where ename like '%AM% or ename like '%AR%';
+
+select * from emp where ename like '_L%';
+
+select * from emp where ename like '_ _ _L%';
+
+select * from emp where hiredate like '%DEC%';
+
+select * from emp where hiredate like '%81';
+
+session 30>>
+
+select ename||','||sal from emp;
+
+session 31>>
+
+session 33>>
+
+select * from emp where substr(ename,2,2)='LA';
+
+select * from emp where length(ename)>5;
+
+session 35>>
+
+select substr(mailid,1,instr(mailid,'.',1,1)-1) from h1;
+
+session 36>>
+
+select replace('ssmissthss','s',' ') from dual;
+
+session 37>>
+
+select length('SLEEP')-length(replace('SLEEP','E','')) from dual;
+
+session 38>>
+
+Oracle having following date functions:
+
+sysdate
+last_day()
+next_day()
+add_months()
+months_between()
+
+Default date format: DD-MON-YY
+
+session 39>>
+
+select last_day(add_months(sysdate,-1))+1 from dual;
+
+ON 9TH MAY SQL COMPLETION % IS 17...LET'S SEE HOW THE THINGS GOES
+
+session 40>>
+
+select to_char(to_date('15-06-05','dd-mm-yy'),'DD/MONTH/YY') from dual;
+
+session 42>>
+
+select to_char(to_date('15-JUN-23','DD-MON-YY'),'DD/MONTH/YY');
+
+select * from emp where to_char(hiredate,'MON')='DEC';
+
+session 43>>
+
+select * from emp where to_char(hiredate,'fmMM')='2';
+
+select * from emp where to_char(hiredate,'YY')='81';
+
+select * from emp where to_char(hiredate,'fmDD')<'15';
+
+session 44>>
+
+select * from emp where hiredate=sysdate
+
+session 45>>
+
+session 46>>
+
+select * from emp where to_date(hiredate,'DD-MM-YY')=to_date(sysdate,'DD-MM-YY');
+
+session 48>>
+
+session 79>>
+
+session 80>>
+
+select ename, round(month_between(sysdate,hiredate))/12 from emp;
+
+session 81>>
+
+session 82>>
+
+session 53>>
+
+session 54>>
+
+select deptno, count(*) from emp 
+order by deptno
+having count(*)>3;
+
+select to_char(hiredate,'YYYY') "year", count(*) 
+from emp
+group by to_char(hiredate,'YYYY')
+having count(*)>1;
+
+session 55>>
+
+select deptno, sum(sal) 
+from emp
+order by deptno
+having count(*)>3;
+
+select sno
+from test
+group by sno
+having count(*)>1
+
+session 56>>
+
+session 57>>
+
+********************************************************************************************************************************************************************************************
+********************************************************************************************************************************************************************************************
+
+session 88>>
+
+session 89>>
+
+session 91>>
+
+select *
+from emp e, dept d
+where e.deptno=d.deptno 
+AND d.loc='CHICAGO';
+
+select dname, sum(sal) 
+from emp e, dept d
+where e.deptno=d.deptno;
+group by dname;
+
+select d.loc, count(*)
+from emp e, dept d
+where e.deptno=d.deptno
+group by loc;
+
+session 92>>
+
+select dname, sum(sal)
+from emp e, dept d
+where e.deptno=d.deptno
+group by d.dname
+having sum(sal)>9000;
+
+select dname, sum(sal)
+from emp e, dept d
+where e.deptno=d.deptno
+group by rollup(d.dname)
+having sum(sal)>9000;
+
+select ename,sal,lowsal,highsal
+from emp,salgrade
+where sal between lowsal and highsal;
+
+		OR
+
+select ename,sal,lowsal,highsal
+from emp,salgrade
+where sal>=lowsal and sal<=highsal;
+
+session 93>>
+
+select e1.ename "Employee", e2.ename "Manager"
+from emp e1, emp e2
+where e1.mgr=e2.empno;
+
+select e1.ename "Employee", e1.sal "Employee Salary", e2.ename "Manager", e2.sal "Manager Salary"
+from emp e1, emp e2
+where e1.mgr=e2.empno and e1.sal>e2.sal;
+
+select e1.ename "Employee", , e2.ename "Manager"
+from emp e1, emp e2
+where e1.mgr=e2.empno and e1.hiredate<e2.hiredate;
+
+session 94>>
+
+select ename,loc
+from emp e inner join dept d
+on e.deptno=d.deptno and d.loc='CHICAGO'
+
+		OR
+
+select ename,loc
+from emp e inner join dept d
+on e.deptno=d.deptno
+group by loc,ename
+having loc=''CHICAGO';
+
+session 95>>
+
+session 96>>
+
+select ename, d.deptno
+from emp e left outer join dept d
+on e.deptno=d.deptno;
+
+select ename, d.deptno
+from emp e right outer join dept d
+on e.deptno=d.deptno;
+
+select *
+from test1 full outer join test2
+on test1.a=test2.a and test1.b=test1.b;
+
+select ename, dname
+from emp e full outer join dept d
+on e.deptno=d.deptno;
+
+session 97>>
+
+Natural Joins: In this join we are not allowed to use joining condition explicitly, oracle internally find the common column from both table and join the table
+
+syntax:
+
+>select * 
+ from emp natural join dept;
+
+NOTE: Natural join always returns common column once because using clause is bedefault used in natural join
+
+select ename, sal, dname, loc
+from emp cross join dept;
+
+Join Substraction: used to eliminate matching rows in left, right, full outer join
+
+full outer join(substraction):
+
+>select *
+ from emp full outer join dept
+ on emp.deptno=dept.deptno
+ where emp.deptno is null or dept.deptno is null;
+
+session 98>>
+
+joining 3 tables:
+
+syntax:
+
+select col1,col2,col3
+from table1, table2, table3
+where table1.key=table2.key and table2.key=table3.key;
+
+			OR
+
+select col1,col2,col3
+from table1 join table2
+on table1.key=table2.key 
+join table3
+on table2.key=table3.key;
+
+Eg:
+
+8i join ==> 3 tables joining
+
+select *
+from test1, test2, test3
+where test1.sno=test2.sno and test2.sno=test3.sno;
+
+			OR
+
+9i join or ANSI join ==> 3 tables joining
+
+select *
+from test1 join test2
+on test1.sno=test2.sno
+join test3
+on test2.sno=test3.sno;
+
+Eg:
+
+select * 
+from g1, g2 , g3
+where g1.sno=g2.sno and g2.sno=g3.sno;
+
+
+		OR
+
+select * 
+from g1 join g2
+on g1.sno=g2.sno 
+join g3
+on g2.sno=g3.sno;
+
+session 99>>
+
+Constraint: used to avoid invalid data entry, generally created on table column
+
+Types of constraint:
+
+Not null
+Unique
+Primary Key
+Forein Key
+check
+
+session 100>>
+
+Contraint can be defined in two ways:
+
+column level
+table level
+
+Column level: defining constraint on column level is column level constraint
+
+Table level: defining constraint on table level as a whole or group of column is table level constraint
+
+syntax:
+
+create table tablename( col1 datatype(size), col2 datatype(size), col3 datatype(size), col4 datatype(size), constraintype(col1,col2...)); ===> tabel level constraint
+
+Eg:
+
+create table bank( accno number(10) primary key, name varchar2(10), balance number(10));  ==> column level
+
+create table bank( accno number(10) , name varchar2(10), balance number(10) primary key(accno) );  ==> table level
+
+
+Note: "Not Null" can't be defined for table level constraint and not null doesn't allows the null values but it do allows the deplicate values
+
+Unique: accpet only unique values including null value
+
+Eg:
+
+create table z3(sno number(10), name varchar2(10), unique(sno, name));
+
+session 101>>
+
+Foreign key>>
+
+syntax:
+
+create table tablename( col1 datatype(size) references mastertablename(primary key col name), col2 datatype(size), col3 datatype(size));
+
+								OR
+Table level foreign key:-----
+			     |
+			     |
+create table tablename( col1 datatype(size), col2 datatype(size),  col3 datatype(size), foreign key(col1,col2..) references mastertablename(primary key col1,col2..));
+
+session 102>>
+
+on delete cascade clause: used to delete child table records when we are deleting master table record
+
+syntax:
+
+create table tablename( col1 datatype(size) references mastertablename(primary key col1..) on delete cascade, col2 datatype(size));
+
+session 103>>
+
+on delete set null: clause used to set null values in child table whenever we delete master table primary key record
+
+check constraint: used to define logical condition based on business rules
+
+check constraint doesn't works with sysdate function
+
+syntax:
+
+create table tablename( col datatype(size) check(col>1000)); ==> column level
+
+create table tablename( col1 datatype(size), col2 datatype(size), check(col1>1000 AND col2 in 'Kolkata','Delhi')); ==> table level
+
+Eg:
+
+create table test(name varchar2(10), sal number(10), check(name=upper(name) and sal>5000));
+
+session 104>>
+
+Assign user defined names to constraint or constract
+
+Data dictionary: if we want to view all read only tables then we have to use>> select * from dict;
+
+To view contraint on any table use user_constraint data dictionary>> select constraint_name, constraint_type from user_constraint where table_name='EMP';
+
+session 105>>
+
+Eg:
+
+create table emp( empno number(10) constraint pk_emp primary key,...., deptno number(10) constraint fk_emp references dept(deptno));
+
+user_cons_colums data dictionary is used to view given table column name along with contraint attached to column
+
+select column_name, constraint_name from user_cons_column where table_name='EMP';
+
+search_condition column is used to find logical condtion on specific table
+
+Eg:
+
+select search_condition from user_constraints where table_name='EMP';
+
+SEARCH_CONDITIONS
+------------------
+name=upper(name)
+
+user_tab_columns data dictonary stores all column information
+
+select column_name from user_tab_columns where table_name='EMP';
+
+select count(*) from user_tab_columns where table_name='EMP';
+
+session 106>>
+
+Truncate table tablename cascade>> used to truncate master and child table at a time but make sure to use on delete cascade clause in child table
+
+syntax:
+
+create table mastertablename(col1 datatype(size) primary key)
+
+create table childtablename(col1 datatype(size) references mastertablename on delete cascase);
+
+SQL> truncate table mastertablename cascade
+
+session 107>>
+
+Alter used to add/modify contraint on existing table
+
+syntax:
+
+alter table tablename add constraint(col..);
+
+Eg:
+
+alter table x1 add primary key(sno); ==> row level when we are adding to existing column
+
+alter table x1 add sno number(10) unique ==> coloum level when we are adding new column
+
+alter table x2 add foreign key(sno) references master (col);
+
+alter table x3 add not null(sno);
+
+session 108>>
+
+alter table x3 drop constraint not null;
+
+Enable/Disable constraints: we can enable/disable constraint using alter command
+
+syntax:
+
+alter table tablename enable constraint constraintname;
+
+fetch the contraint name from user_con_column data dictionary
+
+select column_name, constraint_name from user_con_column where table_name='X3';
+
+Eg:
+
+create table test(sno number(10) constraint pk_key primary key);
+
+session 109>>
+
+Subquery: 
+
+Non Correlated subquery:
+
+SQL> select * from emp where sal>=(select avg(sal) from emp);
+
+select * from
+emp e full outer join dept d
+where e.deptno=d.deptno and d.dname='SALES';
+
+		OR
+
+select * from emp where deptno=(select deptno from dept where dname='SALES');
+
+select * from emp where hiredate=(select min(hiredate) from emp);
+
+session 110>>
+
+select * from emp where deptno=(select deptno from dept where dname='SALES');
+
+				OR
+
+select ename, dname
+from emp e joins dept d
+where e.deptno=d.deptno
+and deptno=(select deptno from dept where dname='SALES');
+
+
+select * from emp where and sal>(select max(sal) from emp where deptno=20)
+
+select * from emp where and sal>(select min(sal) from emp where deptno=10);
+
+select * from emp where sal=(select max(sal) from emp where sal<(select max(sal) from emp));
+
+session 111>>
+
+select job, avg(sal)
+from emp
+group by job
+having avg(sal)=(select min(avg(sal) from emp group by job);
+
+Nested function: inside nested function we must use group by clause with in child query
+
+select job, avg(sal)
+from emp
+group by job
+having avg(sal)>(select avg(sal) from emp where job='CLERK');
+
+
+select deptno, count(*)
+from emp
+group by deptno
+having count(*)=(select max(count(*)) from emp group by deptno);
+
+session 112>>
+
+select * from emp where mgr=(select empno from emp where ename='BLAKE');
+
+select emp.ename, dept.dname from emp joins dept
+where emp.deptno=dept.deptno 
+and dept.deptno in(select deptno from dept where dname='SALES' or dname='RESEARCH');
+
+NOTE: Here we can't use = operator as we are dealing with multi row subquery, for multi row subquery use IN, ALL, ANY etc.
+
+select * from dept
+where deptno in(selec deptno from emp);
+
+select * from dept
+where deptno not in(select deptno from emp);
+
+session 113>>
+
+TOP-N analysis returns top n highest or lowest record from table
+
+TOP-N analysis can be implemented using>> inline views or rownum
+
+Inline view: oracle 7.2 introduce inline views, special types of query used subquery in place of tablename within parent query
+
+Note: Order by clause can't be used inside child sub query beacuse parent query decide its own order using order by clause
+
+syntax:
+
+select * from (subquery);
+
+select * from(select ename,eno, sal *12 annualsal from emp) where annualsal>30000;
+
+session 114>>
+
+Rownum is pseduo column behaves like table column
+
+rownum used to filter data from table, and having temporary values ie. it varies from query to query for same table
+
+Eg:
+
+SQL> select rownum, ename from emp;
+
+select * from emp where rownum=1;
+
+select * from emp where rownum<=5 order by sal desc; ==> rownum will be executed first and then sorting will happen using filtered 5 record, which is not expected
+
+select * from(select * from emp order by sal desc) where rownum<=5;
+
+session 115>>
+
+rownum execution explained
+
+session 116>>
+
+alias name using rownum in inline view
+
+Eg:
+
+select * from(select rowname r, ename, sal from emp) where r=2;
+
+select * from(select rowname r, emp.* from emp) where r>5 and r<9;
+
+				OR
+
+select * from(select rowname r, emp.* from emp) where r between 5 and 9;
+
+select * from(select rowname r, emp.* from emp) where r in(2,3,5,7);
+
+session 117>>
+
+select emp.* from(select mod(rownum,2) r, emp.* from emp) where r=0;
+
+				OR
+
+select emp.* from(select rownum r, emp.* from emp) where mod(r,2)=0;
+
+select emp.* from(select rownum r, emp.* from emp) where r=1 or r=(select count(*) from emp);
+
+select emp.* from(select rownum r, emp.* from emp) where r>3;
+
+fetch first/last row: used in top-n analysis
+
+syntax:
+
+select col1, col2
+from tablename
+order by col1, col2 [asc, desc]
+[offset n rows]
+fetch first/next n rows only;
+
+Eg:
+
+select *
+from emp
+fetch first 5 rows only;
+
+select *
+from emp
+order by sal desc
+fetch first 2 rows only;
+
+FIRST 5 HIGHEST SALARY: 
+
+select *
+from emp
+order by sal desc
+fetch first 5 rows only;
+
+session 118>>
+
+select *
+from emp
+order by sal desc
+fetch first 50 percent rows only;
+
+select *
+from emp
+offset 3 rows
+fetch next 11 rows only;
+
+select * from emp where rownum<=2;
+minus
+select * from emp where rownum=1;
+
+select * from emp where rownum<=(select count(*) from emp);
+minus
+select * from emp where rownum<=(select count(*)-2 from emp);
+
+session 119>>
+
+Analitical function:
+
+syntax:
+
+Analyticalfunctionname()over( partition by colname order by colname[asc/desc]);
+
+Oracle having following analytical function: Rank(), dense_rank(), row_num(), these three analytical function automatically assign rank either group wise or row wise in a table
+
+Eg:
+
+select ename,empno,deptno,sal,row_number()over( partition by deptno order by deptno) from emp;
+
+select ename,sal,deptno,row_number()over(partition by deptno order by sal desc) r from emp;
+
+session 120>>
+
+select * from(select emp.*,dense_rank()over( partition by deptno order by sal desc) r from emp) where r=2;
+
+select * from(select rownum r,emp.* from emp order by sal desc) where r=5;
+
+				OR
+
+select * from(select emp.*, dense_rank()over(order by sal desc) r from emp) where r=5;
+
+session 121>>
+
+select * from emp where rowid=(select max(rowid) from emp);
+
+session 122>>
+
+select * from emp where sno in(select sno,count(*) from emp group by sno having count(*)>1)
+
+delete from emp where rowid not in(select min(rowid) from emp group by sno);
+
+********************************************************************************************************************************************************************************************
+********************************************************************************************************************************************************************************************
+
+NOTE: continuing from SQL folder shared by durga from session 60 onwards
+
+session 60>>
+
+select * from(select emp.*,row_number()over( order by rowid) r from emp) where r=2;
+
+select * from(select emp.*,row_number()over( order by rowid desc) r from emp) where r<=2;
+
+select * from(select emp.*, row_number()over(partition by deptno order by rowid) r from emp) where r=2;
+
+Lag(): function used to display current row along with previous row data
+
+syntax:
+
+lag(columnname, offset, defaultvalue)over(partition by colname order by colname);
+
+lag function accepts three parameter out of which two of them are optional ie. offset, defaultvalue is optional but columnname is mandate
+
+Eg:
+
+select ename,empno,sal,lag(sal)over( order by empno ) prev_sal from emp;
+
+select ename,empno,sal,lag(sal,2,0)over( order by empno ) prev_sal from emp; ==> will compare salary between current row and previous second row if its not there by default 0 will be taken into consederation
+
+Eg:
+
+select * from(select emp.*,lead(hiredate)over(partition by deptno order by hiredate) prev_hiredate from emp) where prev_hiredate is null;
+
+session 61>>
+
+Corelated subquery:
+
+syntax:
+
+select * from tablename aliasname
+where colname=(select * from tablename where colname=aliasname.colname);
+
+session 62>>
+
+session 63>>
+
+SQL> select * from test t1 where 1=(select count(distinct(sal)) from test t2 where t2.sal>=t1.sal);  ==> fetch 1st highest salary from test table
+
+SQL> select * from emp e1 where 2=(select count(distinct(sal) from emp e2 where e2.sal>=e1.sal);
+
+SQL> select * from emp e1 where &n_salary=(select count(distinct(sal) from emp e2 where e2.sal>e1.sal);
+
+SQL> select job j, avg(sal) a from emp group by job
+
+SQL> select * from emp e where sal>(select avg(sal) from emp where job=e.job)
+
+session 64>>
+
+Exists: performance is very high compared to IN operation, don't use column name whie using exist operator
+
+syntax:
+
+select * from tablename aliasname
+where exists(select * from tablename where colname=aliasname.columnname);
+
+Eg:
+
+select * from dept d where exists(select * from emp where emp.deptno=d.deptno); ==> corelated subquery
+
+select * from dept where deptno IN(select deptno from emp); ==> non-corelated subquery
+
+session 65>>
+
+IN vs EXISTS: using in operator comparision happend until the end of record but in case of exists operator execution stops once oracle database found the match, hence performance is very high in case of exists operator
+
+select * from dept where deptno not in(select deptno from emp);
+
+select * from dept d where not exists(select * from emp where emp.deptno=d.deptno);
+
+Note: NOT IN operator doesn't work with null values whereas NOT EXISTS operator works with null values
+
+session 66>>
+
+select e1.ename, e2.ename 
+from emp e1 joins emp e2
+where e1.sal=e2.sal;
+
+Having same salary as SCOTT:
+
+SQL>select * from emp e where exists(select * from emp where empname='SCOTT' and e.sal=sal);
+
+SQL>select * from emp e where exists(select * from emp where ename='SCOTT' and sal=e.sal);
+
+IN, ANY, ALL is special operator used in non-corelated subquery
+
+Relational operator doesn't compare multiple values at a time, to prevent this behaviour we use special operator like ALL, ANY
+
+Eg: 
+
+select * from emp where sal>all(select avg(sal) from emp group by deptno);
+
+session 67>>
+
+IN--> used to return same list values
+
+ALL--> used to return all satisfied values from list
+
+ANY--> used to return any satisfied values from list
+
+select * from emp where sal>all(select sal from emp where job='CLERK') order by sal desc;
+
+select * from emp where deptno NOT IN(10,20) ==> dept 30 record will be printed
+
+select * from emp where deptno<> any(10,20) ==> complted table will be printed as any(10) contains dept 20 and 30 whereas any(20) contains dept 10 and 30 , so or of these two will be 10,20,30
+
+session 68>>
+
+Multiple column subquery:
+
+syntax:
+
+select * from tablename where (col1, col2) in(select * from emp where condition);
+
+select * from emp where (job,mgr) in(select job,mgr from emp where ename='SCOTT');
+
+select * from emp where sal IN(select max(sal) from emp group by deptno); ==> here chance is there to get the wrong data as we are only filtering based on maximum salary that can be present in mutiple row different rows.
+
+select * from emp where (deptno,sal) IN(select deptno,max(sal) from emp group by deptno); ==> multiple column comparison is needed to minimize the fake/repeated data
+
+select ename,deptno,sal from(select emp.*, dense_rank()over(partition by deptno order by sal desc) r from emp) where r=1;
+
+select * from emp where (job,hiredate) in( select job, min(hiredate) from emp group by job);
+
+Sequence: used to generate automatic values, it is an independent object can be accessed by any users at a time
+
+syntax:
+
+create sequence sequencename
+start with n
+increment by n
+minvalue n
+maxvalue n
+cycle/nocycle
+cache/nocache;
+
+To generate sequence values then use sequence currval and nextval pseudo columns
+
+To drop sequence use>> drop sequence sequencename;
+
+currval is session dependent variable ie. it varies from session to session 
+
+nextval is global session ie. if we perform any changes in nextval from any session value will be impacted in current session
+
+alter sequence sequencename
+increment by -1
+
+NOTE: we can't alter start with clause after sequenece initilization, all other clause we can alter after initilization
+
+Auto-generate primary key using sequence object
+
+SQL> create table test(sno number(10) primary key, name varchar2(10));
+
+SQL> create sequence s1
+     start with 1
+     increment by 1
+     minvalue 1
+     maxvalue 100;
+
+
+SQL> insert into test values(s1.nextval,'&name');
+
+SQL> alter table test add rno varchar2(10);
+
+SQL> create sequence s2
+     start with 1001
+     increment by 2;
+
+SQL> update test set rno=s2.nextval;
+
+session 69>>
+
+Views: 
+
+select deptno,max(sal) from emp group by deptno;
+
+session 70>>
+
+Complex/Join View: view created from multiple tables or joins of two or more table is complex view
+
+Eg:
+
+create table test(name varchar2(10));
+
+create table subject(sub varchar2(10));
+
+create or replace view v1
+as
+select name, sub from test, subject;
+
+Here for the above view cross join combination is possible n X n
+
+select * from v1;
+
+SQL> insert into v1 values('murali','oracle');
+ERROR: can't insert into complex view
+
+Create Trigger:
+
+create or replace trigger tg1
+instead of insert on v1
+for each row
+begin
+
+insert into test values(:new.name);
+insert into subject(:new.sub);
+
+end;
+
+Materilize views: oracle 8i introduced this materilized view, used to store data, applications in Data warehousing
+
+syntax:
+
+create materilize view viewname
+as
+select statement;
+
+Materialized view should be created by database admin's
+
+session 71>>
+
+To fetch defination inside materialized view use>> select query from user_mviews where mview_name='MV1';
+
+View execution is same as select statement execution ie. everytime whenever we trigger the view , select query will be executed on base table and select query text will be fetched from text attribute inside user_views data dictionary ie. select text from user_views where view_name='V1';
+
+Materialized view fetch the result mostly from its own table but when we refresh the materialized view using refresh procedure inside dbms_mview.refresh(materialized view name) then affected result from base table table will be updated inside materialized view table
+
+session 72>>
+
+create materialized view mv1
+as
+select dname, max(sal)
+from emp,dept
+where emp.deptno=dept.deptno
+group by dname;
+
+SQL> select * from mv1;
+
+SQL> drop materialized view viewname; ==> drop materialized view
+
+session 73>>
+
+ DCL:
+
+>GRANT
+>REVOKE
+
+Eg:
+
+To define any new user in oracle db connect as sys or system with defined password, then use the below command to define user
+
+SQL> create user username identified by password
+SQL> grant connect,resource to username
+SQL> grant all on tablename to username
+
+Note: Make sure to access tablename using username.tablename ie. select * from scott.emp;
+
+Previlage: sets of right/permisssion given to user, two types system previlage, object previlage
+
+In all relational databases data secutiry point of view 
+
+session 74 & 75>> Taken on PL/SQL which I have done already
+
+session 76>>
+
+SQL> create user u1 identified by u1;
+
+SQL> grant create session to u1;
+
+SQL> conn u1/u1;
+
+SQL> select * from session.privs;
+
+PREVELIAGE
+----------------
+CREATE SESSION
+
+Object Previlage:
+
+syntax:
+
+grant objectprevilage on tablename to username/public;
+
+grant all on emp to murali with grant option;
+
+session 77>>
+
+object previlage lies under user_tab_privs data dictionary
+
+ROLE:
+
+syntax:
+
+SQL> create role rolename;
+
+SQL> grant system previlage to rolename;
+
+SQL> grant rolename to user1,user2...;
+
+Eg:
+
+create role r1;
+
+grant create procedure, create trigger, create any materialized view to r1;
+
+grant r1 to scott;
+
+conn scott/tiger;
+
+select role,privilage from role_sys_privis where role='R1';
+
+Pre Defined Roles:
+
+>CONNECT(end user)
+>RESOURCE(devloper)
+>DBA(database administration)
+
+session 78>>
+
+REVOKE:
+
+syntax:
+
+SQL> revoke system previlage from username;
+
+SQL> revoke object previlage on objectname from username/public;
+
+Eg:
+
+SQL> revoke all on scott.emp from public;
+
+DBMS Architecture:
+
+External Level ==> Views, Synonyms
+Conceptual Level ==> Table
+Internal Level ==> Index
+
+session 79>>
+
+Table level security:
+
+create or replace view v1
+as
+select ename,eno,mgr from emp;
+
+grant all on v1 to murali;
+
+revoke all on emp from murali;
+
+session 80>>
+
+user_objects is data dictionary using which we can identify type of object
+
+Eg:
+
+select object_name, object_type from user_objects where object_name='V1';
+
+session 81>>
+
+Synonym: permanent aliasname for the acutal object to hide object information
+
+Database link: create database link linkname connect to username identified by password using databasename;
+
+Eg:
+
+create database link link1 connect to u1 identified by u1 using 'abc';
+
+NOTE: No additioanl permission is needed when using database link
+
+select * from u1.emp@databaselink ==> for any user if datalink is there we can access the database object using datalink connection and with any object/system previlage
+
+CREATE PUBLIC SYNONYM:
+
+syntax:
+
+conn sys as sysdba
+sys
+
+grant create public synonym to murali; ==> system previlage
+
+conn murali/murali;
+
+create synonym private_synonym for scott.emp; ==> private synonym applicable only for murali user
+
+grant all on emp to murali; ==> object previlage
+
+create public synonym dummy_synonym for scott.emp ==> public synonym applicable only to any database user until and unless he must have database object previlage
+
+select * from dummy_synonym;
+
+session 82>>
+
+using dba_objects data dictionary we can find synonym name, type, object type etc. but make sure to connect as sysdba to view this data dictionary
+
+Before dropping any synonym make sure that user has correct system previlage to drop private/public synonym. check system previlage using >> select * from system_privis; and if previlage is not there add it using admin user>> grant drop any synonym to murali; or grant drop public synonym to murali;
+
+All synonym info. stored under user_synonym data dictinary
+
+SQL> desc user_synonym;
+
+INDEX:
+
+SQL> create index indexname on tablename(colname)
+
+Eg: create index in1 on emp(sal);
+
+session>>83
+
+set autotrace on explain;
+
+after checking execution plan for index query off autotrace using>> set autotrace off;
+
+session 84>>
+
+Function based index: ---
+			 |
+SQL> create index in1 on emp(upper(ename));
+
+To improve performance we use index concept in dbms and we must ensure the CPU utilization once we hit any sql query using set autotrace on explain
+
+By default oracle db create index for primary key for any table using btree algorithm once we hit sql query using where clause or order by clause automatically index based query applies
+
+session 85>>
+
+SQL> create table tablename(col1 datatype(size), col2 datatype(size) generated always as upper(col1) virtual);
+
+Eg: 
+
+SQL> create table test(name varchar2(10), upper_name varchar2(10) generated always as upper(name) virtual);
+
+SQL> create table test(a number(10), b number(10), c number(10) generated always as(a+b) virtual);
+
+SQL> insert into test(a,b) values(10,20);
+
+SQL> select column_name, data_default from user_tab_column where table_name='TEST';
+
+session 86>>
+
+Merge: Introduced in oracle 8i
+
+syntax:
+
+Merge into targettablename
+using sourcetablename
+on (joining condition)
+when matched then
+update set targettablecolnames=sourcetablecolname
+when not matched then
+insert (targettablecolname) values(sourcetablecolname);
+
+session 87>>
+
+Eg: 
+
+SQL> Merge into dept x
+using depts y
+on(x.deptno=y.deptno)
+when matched then
+update set x.dname=y.dname,x.loc=y.loc  ==> don't use joining condition column here inside matched statement
+when not matched then
+insert (x.deptno,x.dname,x.dloc)values(y.deptno,y.dname,y.dloc);
+
+Eg:
+
+SQL> Merge into dept x
+using depts y
+on(x.deptno=y.deptno)
+when matched then
+update set x.dname=y.dname,x.loc=y.loc 
+delete where x.deptno=10
+when not matched then
+insert (x.deptno,x.dname,x.dloc)values(y.deptno,y.dname,y.dloc);
+
+syntax:
+
+when matched then
+update set targetcolname=sourcecolname
+delete where condition
+
+Transaction control language(TCL):
+
+1> commit
+2> rollback
+
+If we are using dml statement then force closing cmd line terminal won't save the data but if we use exit to exit out of the session then dml statement/operation will be commited by-default
+
+In case of ddl statement it will by-default commited to memory area
+
+Note: To rollback the data from hard disk we must commit the table at least to hard disk then only rollback will work fine
+
+session 88>>
+
+savepoint: used to tag the transaction logically
+
+syntax:
+
+savepoint savepointname
+
+rollback to particular transaction:
+
+syntax:
+
+rollback to savepointname; ==> here the transaction will be rolled back to particular logical savepoint 
+
+	  OR
+rollback;  ==> here the complete performed transaction will be rolled back
+
+Eg:
+
+select * from emp;
+
+SQL> insert into emp(eno) values(1);
+
+SQL> update emp set sal=sal+100 where ename='FORD';
+
+SQL> savepoint s1;
+
+SQL> insert into emp(eno) values(2);
+
+SQL> update emp set sal=sal+100 where ename='ALLEN';
+
+SQL> savepoint s2;
+
+SQL> rollback to s1;
+
+Here in this case since we rolled-back to s1 all the performed transaction after savepoint s1 will be removed ie. s2 savepoint transaction will be removed whereas in case of only rollback the whole session tranaction is rolled back to initial stage
+
+LOCKS: used to prevent unauthorize access to our resource 1>>row level locks 2>> table level locks
+
+Row level locks: In this lock we are locking set of row using for update clause
+
+syntax:
+
+select * from tablename where condition for update[nowait];
+
+Eg:
+
+SQL> select * from emp where deptno=10 for update; ==> lock applied on all rows have deptno=10 to remove this lock must use either commit or rollback
+
+To remove lock on row level we must commit/rollback the transaction to let other user edit the row level record, but make sure other user must have access to database object if not provide the access using DCL command
+
+SQL> grant all on emp to murali;
+
+Commit/Rollback will automatically remove the lock, once we applied lock on row level record inside table the other user can read the data, but can't edit
+
+session 89>>
+
+Default Lock: Is applied on all DML query by-default whenever we tried to perform same set of DML statement using two different session by-default lock will be applied as row level lock
+
+Eg:
+
+conn scott/tiger
+
+SQL> update emp set sal=sal+100 where deptno=10;
+
+conn u1/u1
+
+SQL> update emp set sal=sal+200 where deptno=10; ==> so here since scott already did change deptno=10 record and the changes isn't commited/rollback yet, so if u1 user tries to perform the same row level changes then he can't be able to perform the same, once scott/rollback user commit/rollback the transaction then only u1 user can perform changes from his end
+
+Deadlock: 
+
+conn scott/tiger;								conn scott/tiger
+
+SQL> update emp set sal=sal+100 where deptno=10;		SQL> update emp set sal=sal+100 where deptno=20;	    ==> default locks is applied for deptno 10 and 20
+
+SQL> update emp set sal=sal+100 where deptno=20;		SQL> update emp set sal=sal+100 where deptno=10;     	    ==> dead lock happend as user want to access locked row record
+   
+   (waiting for the lock to get release having deptno=20)           (waiting for the lock to get release having deptno=10)  ==> dead lock happend as user want to access locked row record
+
+session 90>>
+
+Table level lock: Mostly handled by dba admin's
+
+1> shared lock 
+2> shared update lock 
+3> exclusive lock
+
+shared lock: 
+
+syntax:
+
+SQL> lock table tablename in share mode; ==> multiple user can lock the same table at a time, but dml operation can't be performed
+
+shared update lock:
+
+syntax:
+
+SQL> lock table tablename in share update mode;
+
+exclusive lock:
+
+syntax:
+
+SQL> lock table table in exclusive mode; ==> only one user can lock the table at a time
+
+SET OPERATOR: used to retrive data from single or multiple table, set operator is called as vertical joins
+
+>union		==> unique value in both query + sorting
+>union all	==> unique + duplicate
+>minus		==> 1st query data which should not be in 2nd query
+>intersect	==> common data
+
+Eg:
+
+SQL> select dname from dept
+     union
+     select ename from emp
+     /
+
+select deptno "deptnumber", to_char(null) "deptname" from emp
+union
+select to_number(null), dname from dept;
+
+session 91>>
+
+decode(): used to convert number into string, same as if...then..elsif..else in pl/sql, internally uses equality operator
+
+syntax:
+
+decode(columnname, value1, stmt1, value2 , stmt2, stmt);
+
+session 92>>
+
+SQL> select empno, ename, deptno, decode(deptno, 10, 'TEN', 20, 'TWENTY', 'OTHERS') from emp;
+
+SQL> update emp set comm=0.1*sal where job='CLERK';
+
+SQL> update emp set comm=decode(job, 'CLERK', 0.1*sal, 'SALESMAN', 0.2*sal, 'ANALYST', 0.3*sal,  0.4*sal);
+
+Pivoting: row get converted into column and display the aggreagte function result in tabular form
+
+Eg:
+
+SQL> select job, sum(decode(deptno, 10, sal)) "deptno10", sum(decode(deptno, 20, sal)) "deptno20", sum(decode(deptno, 30, sal)) "deptno30" from emp group by job;
+
+session 93>>
+
+SQL> select decode(grouping(deptno),1,'Grand Total',deptno), sum(sal) from emp group by rollup(deptno);
+
+Case statement:
+
+Eg:
+
+select ename, sal, deptno,
+case deptno
+when 10 then 'ten'
+when 20 then 'twenty'
+else 'others' end from emp;
+
+session 94>>
+
+grouping_id():
+
+Eg:
+
+select deptno, job, sum(sal), 
+
+case grouping_id(deptno,job)
+
+when 1 then 'DEPT TOTAL'
+when 2 then 'JOB TOTAL'
+when 2 then 'GRAND TOTAL' end as SUB_TOTALS
+from emp
+group by cube(deptno,job)
+order by 1,2;
+
+Conditioned case statement:
+
+syntax:
+
+case
+when column1condtion1 then stmts
+when column1condtion2 then stmts
+when column1condtion3 then stmts
+else stmt end
+
+Eg:
+
+select ename,sal
+case
+when sal>1000 then 'Low Sal'
+when sal between 1000 and 2000 then 'Medium Sal'
+when sal in(2400,2950,2750) then 'Special Sal'
+else 'other Sal' end as Sal_Category
+from emp;
+
+Eg:
+
+select case
+when mod(rownum,3)=1 then col1
+when mod(rownum,3)=2 then col2
+when mod(rownum,3)=0 then col3
+end as diagonal_value
+from test;
+
+session 95>>
+
+SQL> select rownum, decode(mod(rownum,3),1,col1,2,col2,col3) as diagonal from test;
+
+select case
+when rownum=1 then col1
+when rownum=2 then col2
+when rownum=3 then col3
+end as diagonal
+from test;
+
+DECODE vs CASE: In case function strict datatype is there hence implict conversion is not there but whereas in case of case statement implicit conversion is not there
+
+Eg:
+
+SQL> select decode(200,100,100,'200','200','300') as testing from dual;
+
+Output: 200
+					OR
+
+SQL> select
+     case 200
+     when 100 then 100
+     when '200' then '200'
+     else '300' end as testing
+     from dual;
+
+Error :can't convert number to char
+
+Note: decode works only with scalar values where as case statement works with sub query and predicates(means conditions eg IN) in searchable form
+
+Pivot():
+
+syntax:
+
+select * from(
+select col1,col2,col3
+from tablename
+pivot( aggregatefunction(colname) for
+columnname IN(value 1, value 2, value 3));
+
+SQL> select * from(select job, sal, deptno from emp) pivot( sum(sal) for deptno IN(10 as deptno10, 20 as deptno20, 30 as deptno30));
+
+session 96>>
+
+15:00
+
+>should be taken care tommorow ==> has been taken care on Sun 27
+
+session 97>> 
+
+>started from hirerchial queries from 01:38:00 timestamp, so from begning you should take care
+
+select Employee from(select m.ename "Employee",n.ename "Manager" from test m full outer joins test n where n.mgr=m.empno) where Manager is null;
+
+select ename from test where empno not IN(select nvl(mgr,0) from test);
+
+Hirerchial clause:
+
+>Level
+>start with
+>connect by prior
+
+session 98>>
+
+syntax:
+
+select level,colname
+from tablename
+where condition
+start with condition
+connect by prior parentcolname=childcolname;
+
+Eg:
+
+select level,empname
+from emp
+start with mgr is null
+connect by prior empno=mgr;
+
+session 99>>
+
+SQL> select sysdate+level-1 from dual connect by level<=10;
+
+SQL> select to_date('&d','DD-MON-YY')+level-1 from dual connect by level<=10;
+
+SQL> select substr('ORACLE',level,1) from dual connect by level<=length('ORACLE');
+
+session 100>>
+
+partition:
+
+syntax:
+
+create table tablename(col1 datatype(size), col2 datatype(size), col3 datatype(size)) partition by range(keycolname) (partition partitionname values less than(value), partition partitionname values less than(value), partition partitionname values less than(maxvalue));
+
+session 101>>
+
+List Partition:
+
+Syntax:
+
+create table tablename(col1 datatype(size), col2 datatype(size), col3 datatype(size)) partition by list(keycolname) (partition partitionname values (list of values), partition partitionname values (list of values), partition partitionname values (default));
+
+Hash Partition:
+
+Syntax:
+
+create table tablename(col1 datatype(size), col2 datatype(size), col3 datatype(size)) partition by hash(keycolname)
+partitions anynumber;
+
+SQL> desc user_tab_partitions;
+
+SQL> select partition_name from user_tab_partitions where table_name='TEST';
+
+session 96>>
+
+SQL> select nvl(to_char(mgr),'no manager') from emp;
+
+SQL> desc nls_session_parameters; ==> data dictinary to view lot of nls default parameter
+
+SQL> select parameter, value from nls_session_parameters;
+
+SQL> alter session set nls_date_format='DD/MM/YY HH:MI:SS';
+
+9--> digit
+g--> group seperator
+d--> decimal indicator
+L--> Local currency
+$--> dollar
+.-->
+,-->
+
+to_char(number,'format',[nls parameter]);
+
+SQL> select to_char(123,'L999','nls_currency=Rs') from dual;
+
+session 97>>
+
+SQL> select to_char(sysdate, 'DD MONTH YEAR','nls_date_language=dutch') from dual;
+
+SQL> select ename, nullif(sal, greatest(2000,sal)) from emp;
+
+Completed..
+
+************************************************************************************************************************************************************************************
+************************************************************************************************************************************************************************************
+
+SQL SERVER
+___________
+
+.MDF file or .LDF file will be created once we initilize the database
+
+--- ==> indicate comment in SQL SERVER
+
+SQL> create table emp( name varchar(20), sal int, id int, address varchar(20));
+
+Multiple value insertion:
+
+SQL> insert into emp values('Ram', 2000, 1, 'INDIA'),('Shyam', 3000, 2, 'AUSTRILIA'),('Manoj', 2000, 1, 'INDIA');
+
+SQL> alter table tablename alter column colname datatype(size);
+
+SQL> alter table tablename add colname datatype(size);
+
+SQL> alter table tablename drop colname;
+
+Transaction:
+
+SQL> begin transaction
+     save transaction t1
+     delete from emp where id=1;
+
+     save transaction t2
+     delete from emp where id=2;
+
+     save transaction t3
+     delete from emp where id=3;
+
+SQL> rollback transaction t1; ==> In this case id=1,2,3 record will be rolled back to savepoint t1
+
+To get the complete table info use: sp_help tablename ==> here sp_help is stored procedure
+
+TO get the all table inside database objects use> select * from sysobject where xtype='u';
+
+sp_rename oldtablename newtablename ==> used to change the table name using sp_rename stored procedure
+
+sp_rename oldtablename.colname colname ==> used to change the column name using sp_rename stored procedure
+
+SQL> select * into emp from myemp; ==> used to create new emp table using old myemp table
+
+SQL> select * from empdetail where desigination='manager' and address='sr nagar';
+
+select * from empdetails order by 1,2 desc; ==> at 1st, col 1 will sorted in descending order then col2 will be sorted in descending order
+
+select desigination, count(*) from empdetails group by desigination;
+
+select * from empdetails where name like 'M%';
+
+session 5>>
+
+identity
+
+delete VS truncate
+
+session 6>>
+
+constraints:
+
+create table emp
+( id int,
+  age int check(age between 20 and 80),
+  name varchar(20)
+)
+
+SQL> create table mastertablename
+     ( col1 datatype(size) primary key,
+       col2 datatype(size)
+     ) 
+
+     create table childtablename
+     ( col1 datatype(size) foreign key references mastertablename(col1 in master table) on delete cascade on update cascade,
+       col2 datatype(size)
+     )
+
+SQL> sp_helpconstraint childtablename
+
+Note: we can link primary key and foreign key using database diagram as well in SSMS
+
+Temproary table: we can create temprorary table using # or ## followed by tablename
+
+session 8>>
+
+SQL> select max(sal) from empdetails where sal NOT IN(select max(sal) from empdetails);
+
+SQL> select * from empdetails where sal>(select avg(sal) from empdetails);
+
+SQL> select name from empdetails where sal=(select max(sal) from empdetails where sal<(select max(sal) from empdetails));
+
+SQL> select * from empdetail where sal=(select min(sal) from empdetail where sal IN (select distinct top 5 salary from empdetail order by salary desc));
+
+session 9>>
+
+
+session 10>>
+
+SQL> select id, name, dateofbirth, CAST(dateofbirth as varchar(10)) as varcharDOB from empdetails;
+
+SQL> select id, name, gender, dateofbirth, CONVERT(varchar(10), dateofbirth, 101) as varcharDOB from empdetails;
+
+CAST[expression/ attributename/ colname as datatype(length)]
+
+CONVERT[ datatype(length), expression/ attributename/ colname, [style] ]
+
+SQL> select id, name, sal, RANK()over( order by salary) as [RANK], DENSE_RANK(order by salary) as [DENSERANK] from empdetails; ==> In case of rank() when there will be repetetion rank order will be skipped, but in case of rank_dense() rank won't be skipped even though there is repetition
+
+SQL> select id, name, gender, sal, RANK()over( partition by gender order by salary) as [RANK], DENSE_RANK(partition by gender order by salary) as [DENSERANK] from empdetails; ==> In this case there will be partition based on gender[MALE/FEMALE] along with RANK() and DENSE_RANK() applied on gender partition
+
+session 11>>
+
+IIF, Running total
+
+SQL> select id, name, sum(salary) over( order by id) as runningtotal from empdetails;
+
+SQL> select id, name, genderid, IIF(genderid=1, 'MALE', 'FEMALE') from employee2;
+
+				OR
+
+SQL> select id, name, case genderid
+                      when genderid=1 then 'MALE'
+		      when genderid=2 then 'FEMALE'
+		      else 'Invalid gender id' end as Gender_Description from employee2;
+
+NOTE: IIF is replacement of CASE statement got introduced in SQL SERVER 2012
+
+JOINS
+-----
+
+OLE D - Object link embededd database
+
+SQL> select emp.*,dept.* from emp inner joins dept on emp.deptno=dept.deptno;
+
+session 12>>
+
+SQL> select a.* from table1 as a joins table2 as b 
+     on a.id=b.id
+     joins table3 as c 
+     on b.id=c.id;
+
+NOTE: pls refer the joins of above tables ( 3 tables joins )
+
+session 13>>
+
+IFNULL, COALESCE, CASE STATEMENT ==> using these we can replace null values
+
+SQL> select * from sysobjects where xtype='v';
+
+create view v1
+as
+select tbldept.deptname, count(*) 
+from tblemployee joins tbldept 
+on tbldept.id=tblemployee.deptid 
+group by tbldept.deptname
+
+
+SQL> sphelptext v1;
+
+session 15>>
+
+session 16>>
+
+session 17>>
+
+Trigger on database level:
+
+create trigger tr1
+on database
+for alter_table, drop_table
+as
+begin
+
+print "Access Denied"
+rollback
+
+end
+
+To view the content inside trigger use>> sp_help tr1
+
+To drop trigger on database level use>> drop trigger tr1 on database
+
+session 18>>
+
+create procedure p1
+as
+begin
+	begin try
+		begin transaction
+		update emp set sal=45000 where empid=7902
+		update dept set loc=Newwork where deptno=3
+		commit transaction
+	end try
+	
+	begin catch
+		rollback transaction
+	end catch
+
+end
+
+SQL> backup database databasename to disk 'path of local disk with filename with .BAK extension'
+
+SQL> restore database databasename from disk 'path of local disk with filename with .BAK extension'
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,824 @@
+
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -r $fileName ]; then
+			cat $fileName
+		else
+			
+
+
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -s $fileName ]; then
+			echo "File not empty"
+		else
+			echo " File empty"
+		fi
+	else
+		echo "given file is not regular file
+	fi
+else
+	echo "doesn't exists"
+fi
+
+*************************************************
+*************************************************
+
+read -p "Enter File Name::" fileName
+
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -r $fileName ]; then
+			echo "Read Permission: YES"
+		else
+			echo "Read Permission: NO"
+		fi
+		
+		if [ -w $fileName ]; then
+			echo "Write Permission: YES"
+		else
+			echo "Write Permission: NO"
+		fi
+	
+		if [ -x $fileName ]; then
+			echo "Execute Permission: YES"
+		else
+			echo "Execute Permission: NO"
+		fi
+	else
+		echo "$fileName is not a regualr file"
+	fi
+else
+	echo "$fileName doesn't exists"
+fi
+
+*************************************************
+*************************************************
+case $char in
+	
+	[0-9] )
+		echo "It is number"
+		;;
+	[A-Za-z] )
+		echo "It is albhabet"
+		;;
+	[^A-Za-z0-9] )
+		echo "Special character"
+		;;
+	* )
+		echo "Please enter single character"
+esac
+*************************************************
+*************************************************
+
+read -p "Enter N::" n
+
+i=1
+sum=0
+
+while [ $n -gt 0 ]
+do
+	sum=$[sum+i]
+	i=$[i+1]
+	n=$[n-1]
+done
+*************************************************
+*************************************************
+
+while [ true ]
+do
+	clear
+	echo $(date +%H:%M:%S)
+	sleep 1
+done
+
+*************************************************
+*************************************************
+
+read -p "Enter String::" name
+
+len=$(echo -n $name | wc -c)
+
+while [ $len -gt 0]
+do
+	echo -n "$(echo -n $name | cut -c $len)"
+	len=$[len-1]
+done
+*************************************************
+*************************************************
+fname=$1
+
+l=0
+
+if [ -e $fname ]; then
+	if [ -d $fname ]; then
+		echo "test.sh: $fname: Is a directory"
+	else
+		while read line
+		do
+			echo -e "\t$l  $line"
+			l=$[l+1]
+		done
+else
+	echo "test: $fname : No such file or directory"
+fi
+
+*************************************************
+*************************************************
+
+for num in {1..100}
+do
+	if [ $[num%10] -eq 0]; then
+		echo "$num"
+	fi
+done
+*************************************************
+*************************************************
+count=0
+for name in *
+do
+	if [ -f $name ]; then
+		echo "$name"
+		count=$[count+1]
+	fi
+done
+
+echo "No. of files::$count"
+*************************************************
+*************************************************
+min=0
+max=0
+for i in $(cat 1.txt)
+do
+	sal=$(echo $i | cut -d ":" -f 3)
+	
+	if [ min -gt $sal ]; then
+		min=$sal
+	fi
+
+	if [ max -lt $sal ]; then
+		max=$sal
+	fi 
+done 
+
+*************************************************
+*************************************************
+
+read -p "Enter N:" n
+
+for ((i=1;i<n;i++))
+do
+	echo "$n * $i = $[n*i]"
+done
+*************************************************
+*************************************************
+
+read -p "Enter N::" n
+
+for ((i=2;i<=n/2;i++))
+do
+	if [ $[n%i] -eq 0 ]; then
+		echo "$n is not a prime number"
+		count=$[count+1]
+		break
+	fi
+done
+
+if [ $count -gt 0 ]; then
+	echo "$n is prime number"
+fi
+
+*************************************************
+*************************************************
+
+#!/bin/bash
+
+declare -a fruits
+fruits=("Apple" "Banana")
+i=0
+len=${#fruits[@]}
+
+while [ i -lt len ]
+do
+	echo ${fruits[i]}
+	i=$[i+1]
+
+done
+
+*************************************************
+*************************************************
+
+for f in ${fruits[@]}
+do
+	echo $f
+done
+
+*************************************************
+*************************************************
+
+
+for ((i=0;i<${#fruits[@]};i++))
+do
+	echo ${fruits[i]}
+done
+*************************************************
+*************************************************
+declare -a array
+
+for((i=0;i<n;i++))
+do
+
+	read -p "Enter Number::" number
+	array[$i]=$number
+
+done
+
+echo "${array[@]}"
+*************************************************
+*************************************************
+oddSum=0
+evenSum=0
+
+for((i=0;i<${#NUM[@]};i++))
+do
+	if [ $[$NUM[$i]%2] -eq 0 ]; then
+		evenSum=$[evenSum+${NUM[$i]}]
+	else
+		oddSum=$[oddSum+${NUM[$i]}]
+done
+*************************************************
+*************************************************
+i=0
+declare -a files
+
+for file in $(ls *.txt)
+do
+	files[$i]=$file
+
+	echo -n "File Name::$file"
+	
+	if [ -r $file ]; then
+		echo -e "\t$READ(Y)"
+	else
+		echo -e "\t$READ(N)"	
+	fi
+
+	if [ -w $file ]; then
+		echo -e "\t$WRITE(Y)"
+	else
+		echo -e "\t$WRITE(N)"
+	fi
+
+	if [ -x $file ]; then
+		echo -e "\t$EXECUTE(Y)"
+	else
+		echo -e "\t$EXECUTE(N)"
+	fi
+	
+	i=$[i+1]
+done	
+
+*************************************************
+*************************************************
+
+function wish()
+{
+
+	if [ $# -eq 0 ]; then
+		echo "Hello Guest::Good Morning"
+	else
+		echo "Hello $1::Good Morning"
+	fi
+}
+
+wish Durga
+*************************************************
+*************************************************
+
+calc()
+{
+
+	if [ $# -lt 2 ]; then
+		echo "Pass excatly 2 arguments"
+	else
+		echo "$1 + $2 = $[$1+$2]"
+		echo "$1 - $2 = $[$1-$2]"
+		echo "$1 * $2 = $[$1*$2]"
+		echo "$1 / $2 = $[$1/$2]"
+	fi
+
+}
+
+calc 30 20
+*************************************************
+*************************************************
+
+print_params()
+{
+
+	if [ $# -eq 0 ]; then
+		echo "No parameter passed"
+	else
+		for param in $@
+		do	
+			echo $param
+		done
+	fi
+}
+
+*************************************************
+*************************************************
+
+max_func()
+{
+
+ 	if [ $1 -gt $2 ]; then
+		echo "Largest No. $1"
+	elif [ $2 -gt $1 ]; then
+		echo "Largest No. $2"
+	else
+		echo "Both Number $1 and $2 are equal"
+}
+
+read -p "Enter First Number::" fnum
+read -p "Enter Second Number::" snum
+
+max_func $fnum $snum
+
+*************************************************
+*************************************************
+
+fact()
+{
+factorial=1
+
+	for ((i=1;i<$1;i++))
+	do
+		factorial=$[factorial*i]
+		
+	done
+}
+*************************************************
+*************************************************
+
+even()
+{
+
+	if [ $[$1%2] -eq 0 ]; then
+		echo "$1 is even"
+	else
+		echo "$1 is odd"
+	fi
+}
+
+read -p "Enter number to check for odd or even::" num
+
+even $num
+*************************************************
+*************************************************
+
+square()
+{
+	echo "Square of $1::$($[$1*$1])"
+}
+square 3
+
+*************************************************
+*************************************************
+
+read -p "Enter your Name::" name
+
+length=$(
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -r $fileName ]; then
+			cat $fileName
+		else
+			
+
+
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -s $fileName ]; then
+			echo "File not empty"
+		else
+			echo " File empty"
+		fi
+	else
+		echo "given file is not regular file
+	fi
+else
+	echo "doesn't exists"
+fi
+
+*************************************************
+*************************************************
+
+read -p "Enter File Name::" fileName
+
+if [ -e $fileName ]; then
+	if [ -f $fileName ]; then
+		if [ -r $fileName ]; then
+			echo "Read Permission: YES"
+		else
+			echo "Read Permission: NO"
+		fi
+		
+		if [ -w $fileName ]; then
+			echo "Write Permission: YES"
+		else
+			echo "Write Permission: NO"
+		fi
+	
+		if [ -x $fileName ]; then
+			echo "Execute Permission: YES"
+		else
+			echo "Execute Permission: NO"
+		fi
+	else
+		echo "$fileName is not a regualr file"
+	fi
+else
+	echo "$fileName doesn't exists"
+fi
+
+*************************************************
+*************************************************
+case $char in
+	
+	[0-9] )
+		echo "It is number"
+		;;
+	[A-Za-z] )
+		echo "It is albhabet"
+		;;
+	[^A-Za-z0-9] )
+		echo "Special character"
+		;;
+	* )
+		echo "Please enter single character"
+esac
+*************************************************
+*************************************************
+
+read -p "Enter N::" n
+
+i=1
+sum=0
+
+while [ $n -gt 0 ]
+do
+	sum=$[sum+i]
+	i=$[i+1]
+	n=$[n-1]
+done
+*************************************************
+*************************************************
+
+while [ true ]
+do
+	clear
+	echo $(date +%H:%M:%S)
+	sleep 1
+done
+
+*************************************************
+*************************************************
+
+read -p "Enter String::" name
+
+len=$(echo -n $name | wc -c)
+
+while [ $len -gt 0]
+do
+	echo -n "$(echo -n $name | cut -c $len)"
+	len=$[len-1]
+done
+*************************************************
+*************************************************
+fname=$1
+
+l=0
+
+if [ -e $fname ]; then
+	if [ -d $fname ]; then
+		echo "test.sh: $fname: Is a directory"
+	else
+		while read line
+		do
+			echo -e "\t$l  $line"
+			l=$[l+1]
+		done
+else
+	echo "test: $fname : No such file or directory"
+fi
+
+*************************************************
+*************************************************
+
+for num in {1..100}
+do
+	if [ $[num%10] -eq 0]; then
+		echo "$num"
+	fi
+done
+*************************************************
+*************************************************
+count=0
+for name in *
+do
+	if [ -f $name ]; then
+		echo "$name"
+		count=$[count+1]
+	fi
+done
+
+echo "No. of files::$count"
+*************************************************
+*************************************************
+min=0
+max=0
+for i in $(cat 1.txt)
+do
+	sal=$(echo $i | cut -d ":" -f 3)
+	
+	if [ min -gt $sal ]; then
+		min=$sal
+	fi
+
+	if [ max -lt $sal ]; then
+		max=$sal
+	fi 
+done 
+
+*************************************************
+*************************************************
+
+read -p "Enter N:" n
+
+for ((i=1;i<n;i++))
+do
+	echo "$n * $i = $[n*i]"
+done
+*************************************************
+*************************************************
+
+read -p "Enter N::" n
+
+for ((i=2;i<=n/2;i++))
+do
+	if [ $[n%i] -eq 0 ]; then
+		echo "$n is not a prime number"
+		count=$[count+1]
+		break
+	fi
+done
+
+if [ $count -gt 0 ]; then
+	echo "$n is prime number"
+fi
+
+*************************************************
+*************************************************
+
+#!/bin/bash
+
+declare -a fruits
+fruits=("Apple" "Banana")
+i=0
+len=${#fruits[@]}
+
+while [ i -lt len ]
+do
+	echo ${fruits[i]}
+	i=$[i+1]
+
+done
+
+*************************************************
+*************************************************
+
+for f in ${fruits[@]}
+do
+	echo $f
+done
+
+*************************************************
+*************************************************
+
+
+for ((i=0;i<${#fruits[@]};i++))
+do
+	echo ${fruits[i]}
+done
+*************************************************
+*************************************************
+declare -a array
+
+for((i=0;i<n;i++))
+do
+
+	read -p "Enter Number::" number
+	array[$i]=$number
+
+done
+
+echo "${array[@]}"
+*************************************************
+*************************************************
+oddSum=0
+evenSum=0
+
+for((i=0;i<${#NUM[@]};i++))
+do
+	if [ $[$NUM[$i]%2] -eq 0 ]; then
+		evenSum=$[evenSum+${NUM[$i]}]
+	else
+		oddSum=$[oddSum+${NUM[$i]}]
+done
+*************************************************
+*************************************************
+i=0
+declare -a files
+
+for file in $(ls *.txt)
+do
+	files[$i]=$file
+
+	echo -n "File Name::$file"
+	
+	if [ -r $file ]; then
+		echo -e "\t$READ(Y)"
+	else
+		echo -e "\t$READ(N)"	
+	fi
+
+	if [ -w $file ]; then
+		echo -e "\t$WRITE(Y)"
+	else
+		echo -e "\t$WRITE(N)"
+	fi
+
+	if [ -x $file ]; then
+		echo -e "\t$EXECUTE(Y)"
+	else
+		echo -e "\t$EXECUTE(N)"
+	fi
+	
+	i=$[i+1]
+done	
+
+*************************************************
+*************************************************
+
+function wish()
+{
+
+	if [ $# -eq 0 ]; then
+		echo "Hello Guest::Good Morning"
+	else
+		echo "Hello $1::Good Morning"
+	fi
+}
+
+wish Durga
+*************************************************
+*************************************************
+
+calc()
+{
+
+	if [ $# -lt 2 ]; then
+		echo "Pass excatly 2 arguments"
+	else
+		echo "$1 + $2 = $[$1+$2]"
+		echo "$1 - $2 = $[$1-$2]"
+		echo "$1 * $2 = $[$1*$2]"
+		echo "$1 / $2 = $[$1/$2]"
+	fi
+
+}
+
+calc 30 20
+*************************************************
+*************************************************
+
+print_params()
+{
+
+	if [ $# -eq 0 ]; then
+		echo "No parameter passed"
+	else
+		for param in $@
+		do	
+			echo $param
+		done
+	fi
+}
+
+*************************************************
+*************************************************
+
+max_func()
+{
+
+ 	if [ $1 -gt $2 ]; then
+		echo "Largest No. $1"
+	elif [ $2 -gt $1 ]; then
+		echo "Largest No. $2"
+	else
+		echo "Both Number $1 and $2 are equal"
+}
+
+read -p "Enter First Number::" fnum
+read -p "Enter Second Number::" snum
+
+max_func $fnum $snum
+
+*************************************************
+*************************************************
+
+fact()
+{
+factorial=1
+
+	for ((i=1;i<$1;i++))
+	do
+		factorial=$[factorial*i]
+		
+	done
+}
+*************************************************
+*************************************************
+
+even()
+{
+
+	if [ $[$1%2] -eq 0 ]; then
+		echo "$1 is even"
+	else
+		echo "$1 is odd"
+	fi
+}
+
+read -p "Enter number to check for odd or even::" num
+
+even $num
+*************************************************
+*************************************************
+
+square()
+{
+	echo "Square of $1::$($[$1*$1])"
+}
+square 3
+
+*************************************************
+*************************************************
+
+read -p "Enter your Name::" name
+
+length=$(echo -n $name | wc -c)
+
+	if [ $(echo $name | cut -c 1) = d -a $(echo $name | cut -c $length) = r ]; then
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if [ $(echo $name | cut -c 1) = d -a $(echo -n $name | wc -c | cut -c 1) = *r ]; then
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

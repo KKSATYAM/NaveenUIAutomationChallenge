@@ -1,0 +1,55 @@
+CENTOS UPDATE==> NEED TO UPDATE DOCKER CONTAINER WITH UPDATED CENTOS VERSION, RUN BELOW COMMAND TO UPDATE CENTOS OS
+
+> cd /etc/yum.repos.d/
+
+> sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+
+> sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+> yum update -y
+
+**********************************************************************************************************************************************************************************************************************************************
+
+> yum install git -y
+
+Install python3 and pip in centos:
+----------------------------------
+
+To install pyhton3 use>> yum install -y python3
+
+To install pip use below set of command>>
+
+> curl "https://bootstrap.pypa.io/pip/3.6/get-pip.py" -o "get-pip.py"
+
+> python3 get-pip.py
+
+Then pull the code from github and try to run any application and check wheather application is accesible from browser and make sure to do the port mapping and port forwarding to docker container or I would suggest stop the container and copy it and then start with port mapped using new updated container
+
+> docker stop <containerId/containerName>
+
+> docker commit <containerName> <newContainerName>
+
+> docker run -d -it -p 8000:8000 --name=updated_centos newContainerName
+
+> git clone -b feature/api https://github.com/KKSATYAM/NaveenUIAutomationChallenge.git
+
+**********************************************************************************************************************************************************************************************************************************************
+
+Linux Directory:
+
+/usr: unix system resource ==> stored all pre-installed software same like C drive program files in windows
+/opt(optional): contains 3rd party software
+
+Partition during installation:
+
+/: assign 10GB
+/root: assign 10GB
+swap: assign 2 X size of ram
+
+
+
+
+
+
+
+

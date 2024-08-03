@@ -1,0 +1,455 @@
+
+CentOS ==> Community Enterprise Operating System
+********************************************************************************************************************************************************************************************************************************************
+
+********************************************************************************************************************************************************************************************************************************************
+Session 5>>
+
+history -c ==> clear the history
+who am i ==> check user login detail ie. logs when logged in
+chvt 2 ==> to go to CMD mode
+chvt 1 ==> to go to terminal in GUI mode
+init 0 ==> shutdown system
+init 6 ==> restart system
+
+gcalctool ==> open calculator
+
+Ctrl+Shift+N ==> to open seperate terminal
+Ctrl+Shift+T ==> to open terminal in same window
+Ctrl+Shift+W/Q ==> to close the already opened terminal
+Ctrl+Shift+++  ==> to enlarge
+Ctrl+Shift-- ==> to shrink
+
+Ctrl + Alt + F2 ==> to switch in between GUI and CLI
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 6>>
+
+cd - ==> navigate to last working directory
+cd --> used to navigate to user home directory or else we can use "cd ~ " as well
+
+vi editor
+
+Execute below command in command mode
+
+dd --> to delete the line
+ndd --> to delete n line.
+yy --> to copy the line
+nyy --> to copy n line
+p --> to paste
+Shift + a --> to go to end of line
+Shift + f --> to go to end of page
+Shift + u --> undo the change
+Ctrl + R --> to re-do the change
+
+Shift + G --> to go to end of page
+
+:se num --> to add line to file
+:se nonum --> to remove the lines from file
+:5 --> to navigate to 5th line
+:1,$s,/session//class --> to replace keyword session to keyword class
+:/linux --> to highlight this keyword in every line
+
+
+vim -o <file1> <file2> --> to open multiple files in same editor--
+Ctrl + ww --> to switch between editor				  |	
+:X to add password to file     					  |
+								  |
+vim is prefered over vi as we can edit multiple files using vim and moreover we can encrypt the file using basic password encription
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 10>>
+
+Grep command:
+
+grep -i linux <filename> --> used to find the line which has linux in it ignoring the case-sensitive
+grep -v linux <filename> --> used to find the line which doesn't contain linux keyword
+grep linux <filename> --> used to find the line which has linux in but not ignoring the case-sensitive
+
+grep -iv linux <filename> --> used to ignore keyword linux in upper and lower case and print remaning lines
+
+grep -E 'freedom|linux|session' <filename> --> used to find multiple word from file
+
+To pick in between lines we have to use stream editor
+
+sed -n '20,30p' <filename>  --> p means print on screen
+
+eg: 
+sed -n '20,30p' /etc/passwsd
+
+To pick particular line use>> sed -n '20p' <filename>
+
+cat -n <filename> --> to display line number along with file content
+
+sort <filename> --> to sort the file in albhabetical order
+
+sort -u <filename> --> to sort the file in albhabetical order, but remove duplicate lines
+
+********************************************************************************************************************************************************************************************************************************************
+
+session12>>
+
+Redirection:
+
+grep -iv linux <filename> > b3
+
+User Administration:
+
+> super user 
+> system user
+> normal user
+
+/etc/passwd --> user info will be stored
+
+/etc/shadow --> user password releated info will be stored here
+
+user creation:
+
+> useradd -c HR keshrsa
+
+To set password for newly created user
+
+> passwd keshrsa
+
+> passwd -S keshrsa --> to check encryption used
+
+> userdel -r keshrsa --> to delete password
+
+To access the user manager
+
+> system-config-users
+
+su <username> --> change user but location still pointing to previous directory
+
+su - <username> --> change user and pwd will be home directory of user in case if we use - when switching user
+
+NOTE: - is used to change the pwd to home directory but incase if we switch to different user without using - the pwd will still inside previous working directory
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 16>>
+
+To change ownership of file use: chown <username> <filename/directory_name>
+
+To change group of file use: chgrp <groupname> <filename/directory_name>
+
+Advance File Handling:
+
+To provide access to user: setfacl -m u:<username>:rwx <filename>
+
+To view access on file/directory: getfacl <filename|directoryname>
+
+To remove access for user: setfacl -x u:<username> <filename>
+
+SAME SCRIPT CAN BE USED TO APPLY PERMISSION TO GROUP:
+-----------------------------------------------------
+
+To provide access to group:: setfacl -m u:<groupname>:rwx <filename>
+
+To view access on file/directory:: getfacl <filename|directoryname>
+
+To remove file/directory permission for group:: setfacl -x u:<groupname> <filename>
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 17>>
+
+PARTITION: Normally we create a partition to keep our file safe when we are formating the OS and to reduce the bootable time as well we do partition and to install multiple OS we do partition the disk and to efficently manage the disk space and allocate the needed disk space for each OS we do partition
+
+Partition Operation:
+--------------------
+
+> Create Partition --> fdisk /dev/sda
+> Update Partition --> partx orr partprobe --> partx -a /dev/sda
+> Format Partition --> mkfs.ext4 /dev/sda7 (to format the partition) ;; blkid (to view the formatted partition)
+> Mount Partition  --> mkdir mnt7 ;; mount /dev/sda7 /mnt7
+
+To check partition use>> fdisk -l
+
+To create partition:
+-------------------
+
+fdsik /dev/sda
+
+:p --> to print partition
+
+:n --> to create new partition and provide size like +10G orr +200M
+
+:w --> to save the created partition and come out of hard disk system environment
+
+Update partition --> partx -a /dev/sda
+
+Format Partition --> mkfs.ext4 /dev/sda7 and to verify the formatted partition --> blkid
+
+To make the partition permanent use::
+
+vim /etc/fstab
+add entry at last using Shift + G and Shift + A then enter --> /dev/sda7 /mnt7 ext4 defaults 0 0
+
+To delete partition:
+--------------------
+
+Delete entry from /etc/fstab file --> vi /etc/fstab --> Shift + G and press dd to delete the last added line for partition
+
+Unmount the partition --> unmount /dev/sda7
+
+Delete the partition --> fdisk /dev/sda --> :p --> :d --> give disk number --> save :w
+
+Update partition --> partx -a /dev/sda
+
+To verfy partition use: df -h
+
+Labelling of partition:
+-----------------------
+
+> e2label /dev/sda7 work --> to label the partition
+> mount -l --> to list all the labels
+
+> e2label /dev/sda7 --> to list the label for /dev/sda7 partition
+
+To remove label use:: e2label /dev/sda7 ''
+
+mkfs= make file system
+
+Swap Partition:
+---------------
+
+To create swap partition we have to use link code as 82 --> SWAP partition , 83 is for standard partition --> change the ID of standard partition to swap partrion using :t --> choose partition id --> hex code as 82 for swap partition
+
+update the partition use: fdisk -a /dev/sda
+
+format the partition use: mkswap /dev/sda8
+
+check formatted partition use: swapon -s --> it will list the swap partition list, if formatted partition is not there enable it
+
+free -m --> to check the avaliable memory and ram
+
+to enable the swap partition use: swapon /dev/sda8
+
+to disable the swap partition use: swapoff /dev/sda8 --> to check if it is disable use: swapon -s
+
+Add a entry in /etc/fstab to make the changes permanent use: Shift + G then Shift + A then enter
+
+/dev/sda8	swap	swap	default 	0	0
+
+Similarly to delete/remove the swap partition delete the entry from /etc/fstab then disable the swap partition use: swapoff /dev/sda8 then delete it from fdisk environment use: fdisk /dev/sda :p :d then update the disk management use: partx -a /dev/sda
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 18>>
+
+Logical Volumes:
+
+Standard Partition --> Physical Volume --> Volume Group --> Logical Volume (whose size can be managed)
+
+To create logical volume in our pc as we have only single harddisk, so we can first create standard partition then physical volume from sp then volume group from pv then finally logical volume whose size can be resized on the way, but we can't changes the size of standard volume once its created
+
+Create Standard Volumes:
+
+fdisk /dev/sda
+
+:p
+:n
+Enter
++200M
+
+:n
+Enter
++200M
+
+:n
+Enter
++200M
+
+here three standard volumes will be created with ID 83, come out of fdisk environment and then update the system using partx, kpartx use: partx -a /dev/sda
+
+To create physical volume use: pvcreate /dev/sda8 /dev/sda9 /dev/sda10 and to check use: pvdisplay
+
+To create volume group use: vgcreate vg1 /dev/sda8 /dev/sda9 /dev/sda10 and to check use: vgdisplay
+
+To create logical volume use: lvcreate -L +200M /dev/vg1 -n lv1 and to check use: lvdisplay
+
+Then to format the logical volume use: mkfs.ext4 /dev/vg1/lv1 and to check use: blkid
+
+Then create a directory and mount a logical volume on it use: mkdir /mnt1 --> mount /dev/vg1/lv1 /mnt1
+
+And finally add a record to make this volume permanent edit: vim /etc/fstab --> go to last row and add: /dev/vg1/lv1	/mnt	ext4	default	   0	0
+
+Note: using logical volume we can increase/decrease partition size as an when we want
+
+To increase size: lvextend -L +200M /dev/vg1/lv1
+
+To decrease size: lvresize -L -100M /dev/vg1/lv1
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 19>>
+
+RAID is used for multi drive data backup
+
+> Hardware RAID
+
+> Software RAID
+
+To create Software RAID:
+-----------------------
+
+To create partition use :fdisk /dev/sda
+
+:p
+:n
++200M
+Enter
+
+:n
++200M
+Enter
+
+:n
++200M
+Enter
+
+:w
+
+update the system after creating the partition use: partx -a /dev/sda
+
+create RAID:
+
+mdadm -C /dev/mdo -n3 /dev/sda8 /dev/sda9 /dev/sda10 -l5(used for RAID 5 where we can recover the data by calculating parity of data stored) --> to club the standard partition 
+
+mdadm -D /dev/mdo --> to display
+
+format the raid partition use: mkfs.ext4 /dev/mdo and then to check useL blkid
+
+finally make directory and attach the partition use: mkdir /raid and then mount to newly created RAID5 partition use: mount /dev/mdo /raid
+
+and update the changes in /etc/fstab to make the mount permanent edit /etc/fstab add at las line: /dev/mdo	/raid	  ext4	    default	0	0
+
+
+To make the partition faulty use: mdadm -f /dev/mdo /dev/sda9 and then display the involved partition use: mdadm -D /dev/mdo , once it display the faulty we have remove and add new partition so that we can recover the data
+
+To remove the faulty partition use: mdadm -r /dev/mdo /dev/sda9 and to add new standard partition use: mdadm -a /dev/mdo /dev/sda11 and then to display use: mdadm -D /dev/mdo
+
+To remove RAID: update /etc/fstab file then to unmount use: unmount /dev/mdo and finally to stop/release resources use: mdadm -S /dev/mdo and finally delete standard partition from fdisk
+
+To remove standard partition use:
+
+fdisk /dev/sda
+
+:d
+:8
+
+:d
+:9
+
+:d
+:10
+
+:w
+
+and then update the system use: partx -a /dev/sda
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 20>>
+
+IP Address:
+
+To check hostname use: hostname
+
+To check domainname use: domainname
+
+To set ip address and domain name permanently go to /etc/sysconfig/network and then edit: HOSTNAME: sys.redhat.in DOMAINNAME: redhat.in
+
+To assign ip address permannent using cmd: ifconfig eth0 192.168.1.1 netmask 255.255.255.0 and the start the service to update the info --> use: service network restart
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 21>>
+
+To enable the eth0 port which is used for ip use:ifup eth0
+
+Backup and Restore:
+------------------
+
+To check the size of directory use: du -h <directory_name>
+
+First use tar command to compress the files and directory, but tar won't be able to compress the size by huge difference may by at max by 20% it can reduce during compression, so to reduce the compress file size we use .zip compression as zip command is used to compress the files but not directory and using zip compression the file size will redece alot.
+
+To apply zip on .tar file use: gzip <filename>.tar
+
+Then we can transfer the data using scp(securly copy) command, to use: scp <filename> <destination_ip>:/path_where_needs_to_copy_compressed_in_destination :: eg: scp linux.tar.zip 192.168.1.2:/home
+
+Gunzip is used for un-compress the files use: gunzip <filename_with.zip_extension>
+
+To un-compress .tar files use: tar -xvf <filename_with_.tar_extension>
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 22>>
+
+RPM and YUM:
+
+Software installation method:
+
+> Standalone
+
+> Network installation method
+
+********************************************************************************************************************************************************************************************************************************************
+
+Session 24>>
+
+To install any service make sure to follow below things:
+
+install service
+update the configuration files
+restart the service
+
+To install NFS server:
+
+> rpm -qa nfs* --> to check if nfs is installed
+
+> rpm remove nfs* --> to remove installed nfs
+
+> yum install nfs* -y
+
+> rpm -qa nfs* --> to check if nfs is installed
+
+Create directory which can be access from any system use: mkdir /home --> give full permission on this directory --> chmod 777 /home
+
+Change/Update configuration file to make the changes permanent --> go to /etc/export --> insert --> /home * (rw,sync) --> :wq --> then restart the service use: service nfs restart and make sure to disable the firewalls use: service iptables stop and to enable nfs service use: chkconfig nfs on and to verify use: exportfs -va (output will be which directory is ready for sharing)
+
+
+Go to client pc: 
+
+> rpm -qa nfs* --> to check if nfs is installed
+
+> rpm remove nfs* --> to remove installed nfs
+
+> yum install nfs* -y
+
+> rpm -qa nfs* --> to check if nfs is installed
+
+To check which directory is ready for sharing use: showmount -e <server_ip>
+
+Then create directory in client pc to access the files present on server use: mkdir /jobs and finally mount the client and server directory use: mount -t nfs <server_ip>:/path /client_path and to verify use: mount and to make these connection/changes permanent use: vi /etc/fstab and add record at last add: 	/<server_ip>:/path	 /cinet_path	 ext4	 default	 0	 0
+
+********************************************************************************************************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+DOCKER
+
+docker system prune -a ==> to delete all unused images
+docker rm -f $(docker ps -aq) ==> to delete all containers
+
+docker run -d --link c1:test --name c2 busybox
+
+version:3
+services:
+  mydb:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+  blog_app:
+    image: wordpress
+    ports:
+    - 8080:80
+    links:
+    - mydb:test
+
+docker run --name=mydb -d -e MQSQL_ROOT_PASSWORD=test mysql
+docker run --name=blog_app -d -p 8080:80 --link mydb:test wordpress
+
+************************************************************************************
+
+FROM ubuntu
+MAINTAINER shiva
+RUN apt-get update -y
+RUN apt-get install git -y
+ADD https://www.google.com/downloadfile.txt /home
+COPY ./anydirectory .
+LABEL created_on=jun24
+
+
+FROM ubuntu
+MAINTAINER shiva
+RUN apt-get update -y
+RUN apt-get install python3 -y
+RUN mkdir /app
+WORKDIR /app
+COPY ./python/* .
+CMD ['python3','test.py']
+
+docker build -f dockeronefile -t test:v1 .
+
+docker run -d test:v1 python3 testone.py
+
+		 OR
+
+docker run -d test:v1
+
+Multi stage docker build:
+
+stage 1:
+
+FROM amazoncorrneto:alpine-11-openjdk as builder
+RUN mkdir -p /app/source
+COPY ./ /app/source
+WORKDIR /app/source
+RUN /mvnm package
+
+stage 2:
+
+FROM amazoncorrneto:alpine-11-openjdk
+COPY --from= builder /app/source/target/*.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ['java','-jar','/app/app.jar']
+
+************************************************************************************
+
+watch -t -x kubectl get pods
+kubectl create -f <yaml file name>
+
+************************************************************************************
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-rs
+  labels:
+    app: my-app
+spec:
+  selector:
+    matchLabels:
+      app: my-pod
+  replicas: 2
+  template:
+    metadata:
+      name: pod-nginx
+      labels:
+        app: my-pod
+    spec:
+      - name: nginx-container
+        image: nginx:1.41.5
+
+************************************************************************************
+
+Job: completion:, backofflimit:, activeDeadLinetime;, 
+
+CronJob have three job status i.e Always(will concerenlty schedule bunch of jobs eventhough job is still running in background), Forbid(will wait for existing job to complete), Replace(will terminate the existing job and schedule new job)
+
+Service: NodePort, ClusterIP, ExternalName, ExternalIP, LoadBalancer etc.
+
+************************************************************************************
+
+> kubectl get nodes
+
+> kubectl top nodes ==> will get the nodes metric like CPU and Memory used
+
+QoS: Burstable, Best Effort, Guaranteed
+
+Pods got evicited/removed based on avaliablity of memory and priroty will be decided by quality of service classes for each pods running in cluster
+
+********************************************************************************************************************************************************************************************************************************************
+
+helm lint 
+
+helm install test folder_name
+
+helm list
+
+> lsof -i TCP:22
+
+> lsof -i TCP@127.0.0.1
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+

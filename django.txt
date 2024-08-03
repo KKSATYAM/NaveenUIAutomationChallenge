@@ -1,0 +1,534 @@
+Django
+
+C:\> django-admin startproject firstproject
+
+FirstProject
+  | -manage.py ==> to start server, migration
+   FirstProject
+	|- __init__.py ==> to highlight current folder as python
+	|- urls.py ==> contains all the ulrs related to view inside the application, so that user can access the views inside application 
+	|- settings.py ==> contains configurations files like database configuration etc
+	|- asgi.py ==> used for asynchronous server gateway interface
+	|- wsgi.py ==> used for web server gateway interface
+
+C:\> py manage.py runserver
+
+C:\> py manage.py createsuperuser
+
+
+from django.db import admin
+from testapp.models import Student
+
+class StudentAdmin(admin.ModelAdmin)
+ list=['name','marks']
+
+admin.site.register(Student,StudentAdmin)
+
+Jinja2 scripting:
+-----------------
+
+{% if emp_list %}
+{% for emp in emp_list %}
+
+{% endfor %}
+
+{% else %}
+
+{% endif %}
+
+Steps to create django project E2E:
+----------------------------------------
+
+> django-admin startproj projectname
+
+> cd projectname
+
+> py manage.py startapp appname
+
+> define appname inside project level setting.py file under Installed App list
+
+> define urls to map the respective views function inside application.urls or projectname.urls.py 
+
+> py manage.py runserver portnumber
+
+> define templete folder for html releated file and map the template directory inside setting.py as followed TEMPLATE_DIRS= BASE_DIR / 'template' and map the same inside APPS list
+
+> define folder for static files such as images/css/videos/audio related files etc.
+
+> define static file path inside setting.py using STATIC_DIR= BASE_DIR/'static'
+
+> initiliaze STATICFILES_DIRS=[ STATIC_DIR ] inside setting.py
+
+> to connect to any database configure database releated configuration inside settings.py as>
+
+'DATABASE': 'django.db.engine.oracle'
+'NAME': 'XE'
+'USER': 'system'
+'PASSWORD': 'manager'
+'HOST': 'localhost' '' or any server ip
+'PORT': 1521
+
+> after setting the configuration use check db connection>> navigate inside projectname folder and use>> py manage.py shell to access django shell
+
+> inside shell use>> from django.db import connection>> connect=connection.cursor() >> make sure we aren't getting any error
+
+> once database is configured define model.py inside application folder by inheriting Model class
+
+syntax:
+
+from django.cont import model
+
+class Employee(models.Model):
+	
+	eno = model.IntegerField()
+	ename = model.CharField(max_length=30)
+	esal = model.FloatField()
+	eaddr = model.CharField(max_length=30)
+
+> once we defined models.py class we have to migate the above defined schema to oracle db using makemigrations and migrate
+
+> py manage.py makemigrations
+
+> py manage.py sqlmigrate testapp 0001(filename which got created after makemigration cmd run)
+
+> py manage.py migrate ==> using to create database inside database server
+
+> after all this create super user to access the django admin page using>> py manage.py createsuperuser
+
+> provide permission to admin user inside admin.py file
+
+class EmployeeAdmin(admin.ModelAdmin):
+	
+	list_display=['eno','ename','eaddr']
+
+admin.site.register(Employee, EmployeeAdmin)
+
+> login inside admin page with giver user credential and make sure Employee table is accessible
+
+> navigate inside views and pass the context to .html file to render the same on frontend 
+
+> To fetch the table data from database use Tablename.objects.all() ==> will return queryset
+
+> inside .html using Jinja2 syntax fetch the context data and that it...
+
+********************************************************************************************************************************************************************************************
+********************************************************************************************************************************************************************************************
+
+django-seed library is used to generate the fake data for all models inside project
+
+> pip install django-seed
+
+> pip manage.py seed testapp --number=10
+
+> ModelName.object.all()
+
+> ModelName.object.filter(__lt=50)
+
+>>FORMS:
+---------
+
+from django import forms
+
+class StudentForm(forms.Form):
+	
+	name=forms.CharField()
+	sal=forms.IntegerField()
+
+Inside views.py:
+
+pass the form object to .html file and load the same file inside .html form tag
+
+
+.btn{
+
+display:inline-block;
+margin-bottom:0;
+font-weight:400;
+text-align:center;
+white-space:nowrap;
+vertical-align:middle;
+-ms-touch-action:manipulation;
+touch-action:manipulation;
+cursor:pointer;
+background-image:none;
+border:1px solid transparent;
+padding:6px 12px;
+font-size:14px;
+line-height:1.42857143;
+border-radius:4px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none
+
+}
+
+{ % csrf_token % }
+
+Jinja2 scripting to make the html page dynamic and most of the data will be loaded during runtime
+
+{% if emp_list %}
+
+{% for emp in emp_list %}
+
+{% endfor %}
+
+{% else %}
+
+{% endif %}
+
+Form Validation:
+----------------
+
+Form class have self.cleaned_data['varname'] instance variable which is used to fetch the runtime value from html to django form object and we can validate the value based on given condition
+
+self.cleaned_data ==> dictionary
+
+super().clean() ==> data dictionary
+
+Model Based Form:
+-----------------
+
+class StudentForm(forms.ModelForm):
+	
+	class Meta:
+		
+		model = modelname
+		field = '__all__' orr exclude = [] orr field = ()
+
+********************************************************************************************************************************************************************************************
+
+Inside views.py other function defination:
+
+request.session['name']=request.GET['name']
+name=request.session.get('name')
+
+return render(request,'testapp/age.html',{'name':name})
+
+********************************************************************************************************************************************************************************************
+
+Reverse URL: once we inserted the record using InsertView class we have to use reverse url concept to redirect to other html page
+
+Syntax:
+
+model.py:
+
+def get_absolute_url(self, **kwargs):
+	
+	return reverse('detail', kwargs={'pk':self.pk})
+
+urls.py:
+--------
+
+from django.contrib import path
+from testapp import view
+
+URL_LIST=[
+
+	path('<int:pk>',view.DetailedView.as_view(),name='detail'),
+
+]
+
+********************************************************************************************************************************************************************************************
+
+def get_absolute_url(self):
+	
+	return reverse('detail',kwagrs={'pk':self.pk/id})
+
+from django.urls import reverse_lazy
+
+class DeleteCompanyView(DeleteView):
+		
+		model=company
+		
+		success_url= reverse_lazy('list')
+
+********************************************************************************************************************************************************************************************
+
+Django ORM:
+-----------
+
+Modelname.object.all() ==> return queryset ==> to get the actual sql query out of this use str(queryset.query) inside python shell ==> to navigate to python shell use ==> py manage.py shell ==> import Model.py from testapp using ==> from testapp import Models ==> then execute python command like ==> qs=Employee.objects.all()
+
+> __gt or __gte
+
+> __lt or __lte
+
+> __startswith or __istartswith
+
+> __range ==> will expect list as argument
+
+> __contains or __icontains
+
+> __excat or __iexcat
+
+> __in ==> will expect list as argument
+
+from django.db.models import Q
+
+Below function is used to filter the columns from table by defining field values
+
+> value_list(field 1, field 2, field 3...) ==> return list of tuples
+
+> values(field 1, field 2, field 3...) ==> return dictonary object
+
+> only(field 1, field 2, field 3...) ==> return Models object ie. Employee
+
+********************************************************************************************************************************************************************************************
+Database Insert Operation:
+
+obj=Employee(name="Durga",sal=70000)
+obj.save()
+
+	OR
+
+Employee.objects.create(name="Durga",sal=70000)
+
+	OR
+
+Employee.bulk_create([name="Durga",sal=70000], [name="Durga",sal=70000], [name="Durga",sal=70000], [name="Durga",sal=70000]...)
+********************************************************************************************************************************************************************************************
+
+Multi table inherintance ==> same class will be used as parent class for multiple child
+	
+	Multi level inherintance ==> class structure( Parent--->Child--->Child) will be used for multi level inheritance
+
+	Multiple Inheritance ==> make sure to add explicit primary key to any one of parent table
+
+Proxy model inheritance behave like database views which can provide access to limited columns ie. provide security to database table data
+
+create or replace view viewname
+as
+select ename, eno, eaddr, emgr from emp where eid between 1000 and 3000;
+
+********************************************************************************************************************************************************************************************
+MIME ==> Multi Purpose Internet Mail Extension
+
+original_data=
+
+{
+
+	'eno':700,
+	'ename':'Kartik',
+	'esal':7000,
+	'eaddr':'Mumbai'		
+}
+	
+provided_data:
+
+{
+
+	'esal':70000,
+	'eaddr':'Delhi'
+
+}
+
+for k,v in provided_data.items:
+	original_data[k]=v
+
+		OR
+
+original_data.update(provided_data)
+
+MIXINS: used to include code resuability in existing class based view, directly inherit object and mixins doesn't have any attribute hence there is no point of creating sepeate objects for mixins class, but the implemented method can be reused during api method call
+
+from django.utils.decorator.csrf import csrf_exempt
+from django.utils.decorator import method_required
+
+@method_required(csrf_exempt,name='dispatch')
+
+******************************************************************************************************************************************************************************************************************************************
+
+data=request.body
+
+pdata=json.loads(data) ==> dict
+
+id=pdata.get('id',None)
+
+old_obj=Student.objects.get(id=id) ==> Student Object
+
+original_obj=		
+{
+	'name':old_obj.name,
+	'rollno':old_obj.rollno,
+}	==> dict
+
+original_obj.update(pdata)
+
+form=StudentForm(updated_obj,instance=old_obj) ==> same object got updated with modified data
+
+******************************************************************************************************************************************************************************************************************************************
+
+pip install djangorestframework
+pip install markdown
+pip install django-filter
+
+Seralization: converting complex data type such as Model instance, Queryset objects into python native data type such as list, tuple, dict etc is serilazation
+
+Implementing Serilization: serilizer.py
+
+from rest_framework import serializers
+
+class StudentSerliazer(seriliazer.Serilazer):
+	
+	name=serializers.CharField(max_length=128)
+	rollno=serializers.CharField(max_length=128)
+	dept=serializers.CharField(max_length=128)
+	marks=serializers.CharField(max_length=128)
+
+stu=Student.objects.get(id=1)
+
+stu_serilizer=StudentSerliazer(stu)
+stu_serilizer.data ==> will return python dict. ==> this is serlization as here we are converting complex datatype such as model instance, queryset etc. to python native datatype
+
+
+JSONRenderer() ==> inside rest_framework.renderer module JSONRenderer class is used to convert python native datatype like dict to JSON objects
+
+from rest_framework.renderer import JSONrender
+
+json_data=JSONrender().render(stu_serilizer.data) ==> this line converts python native datatype(dict) to JSON
+
+*****************************************************************************************************************************************************************************************************************************************
+
+Deseralization: converting python native data type into database model complex object is deserialization
+
+from io
+from rest_framework.parsers import JSONparser
+from testapp.seriliazer import EmployeeSerializer
+
+stream=io.BytesIO(json_data)
+pdata=JSONparser().parser(stream) ==> this line converts JSON data to python native datatype(dict)
+
+emp=EmployeeSerializer(pdata)
+emp.is_valid()
+emp.validate_data ==> convert python data to complex database object ==> this is deseralization as here we are converting python native datatype to complex model instance/queryset
+
+*****************************************************************************************************************************************************************************************************************************************
+
+from django.view.generic import View
+from django.view.decorator.csrf import csrf_exempt
+from django.utils.decorator import method_decorator
+
+@method_decorator(csrf_exempt,name='dispatch') ==> used to bypass csrf validation during post request on class level 
+class ClassBasedViews(View):
+
+we can define csrf validation on three levels ie. method/class/project , to bypass on project level comment the csrf related middleware and to bypass on class/method level use @method_decorator(csrf_exempt,name='dispatch')
+
+*****************************************************************************************************************************************************************************************************************************************
+
+Router: used to route the request from viewset to client endpoint
+
+syntax:
+
+from rest_framework.routers import DefaultRouter
+
+define DefaultRouter with ViewSet related classes and map inside url list as include('router.urls')
+
+common method from APIView vs ViewSet
+
+from rest_framework.viewset import ViewSet
+
+get() ==> list() ==> fetching multiple/all record at a time, retrive() ==> fetching single record at a time
+post() ==> create()
+put() ==> update(),partial_update()
+delete() ==> destroy()
+
+Note: primary key parma must be needed in case of viewset for retrive(), update(), partial_update() and destroy() operations
+
+*****************************************************************************************************************************************************************************************************************************************
+
+from rest_framework.generic import ListAPIView, CreateAPIView, UpdateAPIView, RetriveAPIView, DestroyAPIView
+from testapp import Models, Serializer
+
+class EmployeeListDetails(ListAPIView):
+
+	queryset=Models.Emoloyee.objects.all()
+	serializer_class=Serializer.EmployeeSerializer
+	lookup_field='id' ## this is optional as mostly we prefer pk as primary key which is by default initilized in ListAPIView class
+
+class EmployeeRetriveDetail(RetriveAPIView):
+
+	queryset=Models.Emoloyee.objects.all()
+	serializer_class=Serializer.EmployeeSerializer
+	
+	name=request.GET.data.get('name') ==> this name parameter we will get by default from query params from browser ie http://localhost:8000/api?name=
+	
+	if name not None:
+		
+		queryset.filter(name__icontains='durga')
+	
+	return queryset
+
+and lot more related APIView child classes are there
+
+*****************************************************************************************************************************************************************************************************************************************
+
+401 Bad Request
+402 Unauthorize
+403 Forbidden
+404 Not Found
+429 Too many reuest
+
+500 Internal server error
+503 Server Unavaliable
+504 Gateway Timeout
+
+200 Ok
+201 Created
+202 Accepted
+203 Non Authorative Information
+204 No Content
+
+
+In JWT we have request header+ username + password + signature
+
+*****************************************************************************************************************************************************************************************************************************************
+
+
+k-Kinddom
+e-England
+s-Sweden
+h-Holand
+r-Russia
+s-Sweden
+a-Austrilia
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
