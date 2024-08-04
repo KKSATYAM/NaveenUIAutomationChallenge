@@ -3081,5 +3081,278 @@ end[before row];
 
 session 117>>
 
+session 116>>
+
+create or replace tg1
+for insert on emp
+compound trigger
+
+g number(10);
+
+after each row is
+begin
+
+g:=:new.deptno;
+
+end after each row;
+
+after statement is
+v_count number(10);
+
+begin
+select count(*) into v_count from emp where deptno=g;
+
+if v_count>4 then
+
+raise_application_error(-20123,'row count execeded');
+
+end if;
+
+end after statement;
+
+end;
+/
+
+******************************************************************************************************************************************************************************************
+******************************************************************************************************************************************************************************************
+
+create or replace trigger tk1
+for insert on bank
+compound trigger
+
+v_account number(10);
+
+after each row in
+begin
+
+v_account:=:new.acctno;
+
+end after each row;
+
+after statement is
+declare 
+v_sal number(10);
+
+begin
+
+select sum(sal) into v_sal from bank where acctno=v_account;
+
+
+end after statement;
+
+end;
+/
+
+session 117>>
+
+In oracle we can call procedure inside trigger using call statement inside trigger ie. call procedurename
+
+syntax:
+
+create or replace trigger tg1
+before/after insert/update/delete on tablename
+call procedurename
+
+Eg:
+
+create table target(total number(10));
+
+create or replace trigger tk2
+after insert or update or delete on emp
+call p1
+/
+
+
+create or replace procedure p1
+is
+
+declare
+v_sal number(10); 
+
+begin
+
+delete from targer;
+select sum(sal) into v_sal from emp;
+insert into target values(v_sal);
+
+
+end;
+/
+
+session 118>>
+
+In trigger we can't commit any dml statement in trigger body as trigger is part of dml statement, once trigger got completed dml statement will be comitted automaticlly
+
+If we try to commit any transaction inside trigger body we will get ORA-4092 can't commit inside trigger 
+
+Eg:
+
+create or replace trigger tk4
+after insert on emp
+for each row
+
+declare 
+pragma autonomous_transaction;
+
+begin
+
+insert into target values(:new.empno);
+commit;
+end;
+/
+
+ENABLE/DISABLE TRIGGERS:
+
+In oracle we can enable/disable trigger by using below syntax
+
+syntax
+
+alter trigger triggername enable/disable;
+
+		OR
+
+alter table tablename enable/disable all triggers;
+
+DDL TRIGGER:
+
+syntax:
+
+create or replace trigger triggername
+before/after create/alter/drop/truncate on username.schemaname/database
+
+[declare]
+
+begin
+......
+
+end;
+/
+
+Eg:
+
+create or replace trigger tk1
+before drop on scott.schema
+
+begin
+
+if ora_dict_obj_name='EMP' and ora_dict_obj_type='TABLE' then
+
+raise_application_error(-20123,'we cannot drop table');
+
+end if;
+
+end;
+/
+
+session 119>>
+
+TO CREATE DATABASE LEVEL TRIGGER WE HAVE TO LOGIN AS SYS USER
+
+SQL>
+
+conn sys as sysdba
+password:***
+
+then cretae trigger
+
+create or replace trigger tj1
+before create on database
+
+begin
+
+raise_application_error(-20123,'we cannot create any db object');
+
+end;
+/
+
+ALL TRIGGERS INFORMATION STORED UNDER USER_TRIGGER DATA DICTINOARY
+
+SQL> desc user_triggers 
+
+session 121>>
+
+session 122>>
+
+load data
+infile 'path of file'
+insert 
+into table target
+fields terminated by ','
+(sno, file_name, file_data lobfile(file_name) terminated by eof);
+
+CMD> sqlldr userid=scott/tiger
+control= 'path of control file'
+
+session 123>>
+
+session 124>>
+
+create or replace procedure p1(tablename varchar2)
+is
+cursor c1 is select index_name from user_indexes where table_name=tablename;
+
+begin
+
+for i in c1
+
+loop
+
+execute immediate 'drop index '||i.index_name; 
+
+end loop;
+
+end;
+/
+
+SQL> exec p1('EMP');
+
+session 125>>
+
+type t1 is table of varchar2(10)
+index by binary_integer;
+v_t t1;
+
+begin
+
+execute immediate 'select ename from emp' bulk collect into v_t;
+
+for i in v_t.first..v_t.last
+
+loop
+
+dbms_output.put_line(v_t(i));
+
+end loop;
+
+
+end;
+/
+
+declare
+
+type t1 is table of dept
+index by binary_integer;
+
+v_t t1;
+v_deptno number(10):=&deptno;
+
+begin
+
+execute immediate 'select * from dept where deptno=:1' bulk collect into v_t using v_deptno;
+
+for i in v_t.first..v_t.last
+
+loop
+
+dbms_output.put_line(v_t(i).name||'  '||v_t(i).loc);
+
+end loop;
+
+end;
+/
+
+session 126>>
+
+
 Completed..
 
